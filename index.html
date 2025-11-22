@@ -1,0 +1,2504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>social - Put People First</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load Iconify for vector icons -->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        /* Custom class to simulate the highlighted text effect */
+        .highlighted-text {
+            /* Simulates the light underline/highlight */
+            box-shadow: inset 0 -0.4em 0 rgba(199, 230, 203, 0.7); /* Soft green/grey highlight */
+            text-decoration: none;
+        }
+        /* Custom CSS for the monochromatic, low-opacity filter on images */
+        .logo-filter {
+            filter: grayscale(100%) brightness(1) opacity(0.6); /* Apply grayscale and low opacity */
+            height: auto;
+            max-height: 48px; /* Limit height for uniform look */
+            width: auto;
+            transition: opacity 0.3s, filter 0.3s;
+        }
+        /* Optional: Makes logos slightly clearer on hover */
+        .logo-filter:hover {
+            opacity: 1;
+            filter: grayscale(0%) brightness(1); /* Restore color/brightness on hover */
+        }
+
+        /* Style for the highlighted text beneath the heading */
+        .highlight {
+            position: relative;
+        }
+        .highlight::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(199, 230, 203, 0.7); /* Soft green/grey highlight */
+            z-index: -1;
+        }
+    </style>
+    <style>
+        /* Define CSS Variables for styling consistency */
+        :root {
+            --radius: 1rem;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Reduced opacity for white background */
+            --bg: #ffffff; /* White Background */
+            --accent: #10b981; /* Green Accent */
+            --anim: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Standard ease-out-quad */
+        }
+        
+        /* Apply the custom font and white background */
+        body {
+            background: var(--bg);
+            color: black; /* Changed text color to black for contrast */
+            font-family: "Inter", sans-serif;
+            display: flex;
+            flex-flow: column;
+            padding-bottom: 4rem;
+            min-height: 100vh;
+            /* Custom Cursors - Updated stroke color for visibility on white background */
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDI0IDI0Ij4KCTxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIiBkPSJtMyAzbDcgMTlsMi4wNTEtNi4xNTRhNiA2IDAgMCAxIDMuNzk1LTMuNzk1TDIyIDEweiIgLz4KPC9zdmc+"),
+                default;
+            }
+        
+            a {
+            text-decoration: none;
+            }
+        
+            .pointer,
+            a,
+            button {
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDE0IDE0Ij4KCTxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTAuNSAzLjEzYTIgMiAwIDAgMSAxLjU5IDIuMjRsLS42MSA0LjI3YTEgMSAwIDAgMS0xIC44Nkg0YTEgMSAwIDAgMS0uOTMtLjYzTDIgNy4yMWEyIDIgMCAwIDEgMS0yLjUzTDUuMzUgNFYxLjV6IiIgc3Ryb2tlLXdpZHRoPSIyIiAvPgo8L3N2Zg+"),
+                default;
+            }
+        
+            .grab {
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDI0IDI0Ij4KCTxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPgoJCTxwYXRoIGQ9Ik0xOCAxMS41VjlhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjEuNG0wLS40VjhhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjJmMC0uMVY5YTIgMiAwIDAg0tMi0yYTIgMiAwIDAg0tMiAydjVbTAgMGEyIDIgMCAwIDAtMi0yYTIgMiAwIDAg0tMiAydiIgLz4KCQk8cGF0aD4KCQk8L2nPgo8L3N2Zz4="),
+                grab;
+            }
+        
+            .grabbing {
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDI0IDI0Ij4KCTxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPgoJCTxwYXRoIGQ9Ik0xOCAxMS41VjlhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjEuNG0wLS40VjhhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjJmMC0uMVY5YTIgMiAwIDAg0tMi0yYTIgMiAwIDAg0tMiAydjVbTAgMGEyIDIgMCAwIDAtMi0yYTIgMiAwIDAg0tMiAydiIgLz4KCQk8cGF0aD4KCQk8L2nPgo8L2R2Zz4="),
+                grabbing !important;
+            }
+        
+            /*=================
+                HEADER
+            ===================*/
+        
+            .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column;
+            margin: 3rem 0 4rem 0;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+                font-weight: 800;
+                color: black;
+                letter-spacing: 0.1rem;
+                text-transform: uppercase;
+                text-align: center;
+                opacity: 0; /* Set initial opacity for JS fade-in */
+                animation: fallback-show 0.1s forwards 0.5s; /* Quick fallback */
+            }
+
+            .accent-text {
+                color: var(--accent); /* Apply green color to span */
+            }
+        
+            /*=================
+                CARDS
+            ===================*/
+        
+            .cards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
+            }
+        
+            .card-wrap {
+            position: relative;
+            }
+        
+            .card-filter {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background: rgba(0, 0, 0, 0.1); /* Dark filter for contrast on background image */
+            z-index: 9;
+            pointer-events: none;
+            backdrop-filter: blur(0.2rem);
+            opacity: 0;
+            transition: opacity 0.1s var(--anim);
+            }
+
+            /* --- Fallback Keyframes --- */
+            @keyframes fallback-show {
+                to {
+                    opacity: 1;
+                    filter: blur(0);
+                }
+            }
+        
+            .card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+            height: 22rem;
+            width: 14rem;
+            min-height: 22rem;
+            min-width: 14rem;
+            max-height: 22rem;
+            max-width: 14rem;
+            margin: 1rem;
+            padding: 1rem;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Dark border on white background */
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            opacity: 0;
+            /* Fallback animation: if JS fails, show the cards after 1.5s delay */
+            animation: fallback-show 0.1s forwards 1.5s; 
+            transition: opacity 0.4s var(--anim), transform 0.3s var(--anim);
+            color: white; /* Card content remains white for contrast against background image */
+            }
+
+            @media (max-width: 600px) {
+                .card {
+                    width: 90%;
+                    max-width: 100%;
+                    min-width: unset;
+                }
+            }
+        
+            .draggable--over .card {
+            opacity: 0.5 !important;
+            filter: blur(0.5rem) !important;
+            transform: scale(0.8) !important;
+            box-shadow: none;
+            border: none;
+            }
+        
+            .draggable-mirror {
+            z-index: 99;
+            opacity: 1;
+            }
+        
+            .draggable-mirror .card {
+            transform: scale(0.98) rotate(5deg);
+            }
+        
+            .draggable-mirror .card-filter {
+            opacity: 1;
+            }
+        
+            .card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* Ensure background image covers the whole card */
+            height: 100%;
+            object-fit: cover; /* Important for responsive background image */
+            z-index: -1;
+            pointer-events: none;
+            user-select: none;
+            }
+        
+            .card-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 0.25rem;
+            }
+        
+            .card-status {
+            margin: 0.25rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2); /* Dark background for status on light image */
+            backdrop-filter: blur(0.5rem);
+            width: 5rem;
+            height: 1.5rem;
+            border-radius: var(--radius);
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            pointer-events: none;
+            user-select: none;
+            }
+        
+            .card-status-dot {
+            height: 0.3rem;
+            width: 0.3rem;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.75rem;
+            }
+        
+            @keyframes pulse {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(3);
+                opacity: 0;
+            }
+            }
+        
+            .card-status-dot:after {
+            content: "";
+            height: 100%;
+            width: 100%;
+            background: inherit;
+            border-radius: 50%;
+            animation: pulse 1s var(--anim) infinite;
+            }
+        
+            .card-status-dot.online {
+            background: var(--accent); /* Green online status */
+            }
+            .card-status-dot.offline {
+            background: grey;
+            }
+        
+            .card-status-dot.offline:after {
+            animation: none;
+            }
+        
+            .card-status-text {
+            font-size: 0.7rem;
+            opacity: 0.75;
+            }
+        
+            .card-handle {
+            background: rgba(0, 0, 0, 0.4); /* Dark background for handle */
+            backdrop-filter: blur(0.1rem);
+            border-radius: 50%;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            height: 2.5rem;
+            width: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        
+            .card-handle-tip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            }
+        
+            .handle {
+            width: 100%;
+            height: 1.25rem;
+            color: white; /* Handle icon white on dark background */
+            }
+        
+            .card-name-wrap {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin: 0.75rem 0;
+            }
+        
+            .card-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-right: 0.5rem;
+            }
+        
+            .card-verification {
+            font-size: 1.25rem;
+            color: var(--accent); /* Green Verified Tick */
+            filter: drop-shadow(0 0 0.5rem var(--accent));
+            }
+        
+            .card-tags {
+            display: flex;
+            align-items: center;
+            flex-flow: row;
+            margin: 0.5rem 0;
+            }
+        
+            .card-tag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(0.5rem);
+            padding: 0.3rem 0.5rem;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+            pointer-events: none;
+            }
+        
+            .card-tag-icon {
+            margin-right: 0.25rem;
+            }
+        
+            .card-rating-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.5rem;
+            }
+            .card-rating-star {
+            font-size: 0.5rem;
+            }
+        
+            .card-rating-stars {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        
+            .card-description {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin: 0.5rem 0 1rem 0;
+            /*initial*/
+            opacity: 0.75;
+            }
+        
+            .card-button {
+            padding: 0.3rem 0.3rem 0.3rem 0.5rem;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s var(--anim);
+            }
+            
+            .card-button:hover {
+                background: var(--accent); /* Green on hover */
+            }
+        
+            .card-button-call {
+            background: var(--bg); /* White background for the inner circle */
+            min-height: 2.5rem;
+            min-width: 2.5rem;
+            border-radius: 50%;
+            color: var(--accent); /* Green Call Symbol */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+            }
+        
+            .card-button-text {
+            margin-left: 0.5rem;
+            font-weight: 500;
+            letter-spacing: -0.02rem;
+            word-spacing: 0.05rem;
+            font-size: 0.85rem;
+            }
+        
+            .card-button-call-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            font-size: 1.2rem;
+            }
+        
+            .card-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 20rem;
+            width: 100%;
+            z-index: 0;
+            opacity: 0.75;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+            pointer-events: none;
+            }
+        
+            /*=================
+                FOOTER
+            ===================*/
+        
+            .footer {
+            margin: 4rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        
+            .follow {
+            color: black; /* Changed footer text to black */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column;
+            }
+
+            .follow:hover {
+                color: var(--accent);
+            }
+        
+            .follow-x {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem 0;
+            }
+        
+            .follow-logo {
+            height: 2rem;
+            width: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.5rem;
+            margin-right: 0.5rem;
+            color: white; /* Icon is white */
+            background: black; /* Background is black */
+            }
+        
+            .follow-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            flex-flow: column;
+            }
+        
+            .follow-us {
+            text-transform: uppercase;
+            opacity: 0.5;
+            font-size: 0.7rem;
+            }
+        
+            .follow-handle {
+            font-weight: 700;
+            margin: 0.25rem 0;
+            }
+    </style>
+    <style>
+        /* Define CSS Variables for styling consistency */
+        :root {
+            --radius: 1rem;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Reduced opacity for white background */
+            --bg: #ffffff; /* White Background */
+            --accent: #10b981; /* Green Accent */
+            --anim: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Standard ease-out-quad */
+        }
+        
+        /* Apply the custom font and white background */
+        body {
+            background: var(--bg);
+            color: black; /* Changed text color to black for contrast */
+            font-family: "Inter", sans-serif;
+            display: flex;
+            flex-flow: column;
+            padding-bottom: 4rem;
+            min-height: 100vh;
+            /* Custom Cursors - Updated stroke color for visibility on white background */
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDI0IDI0Ij4KCTxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIiBkPSJtMyAzbDcgMTlsMi4wNTEtNi4xNTRhNiA2IDAgMCAxIDMuNzk1LTMuNzk1TDIyIDEweiIgLz4KPC9zdmc+"),
+                default;
+            }
+        
+            a {
+            text-decoration: none;
+            }
+        
+            .pointer,
+            a,
+            button {
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My4wcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDE0IDE0Ij4KCTxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNMTAuNSAzLjEzYTIgMiAwIDAgMSAxLjU5IDIuMjRsLS42MSA0LjI3YTEgMSAwIDAgMS0xIC44Nkg0YTEgMSAwIDAgMS0uOTMtLjYzTDIgNy4yMWEyIDIgMCAwIDEgMS0yLjUzTDUuMzUgNFYxLjV6IiIgc3Ryb2tlLXdpZHRoPSIyIiAvPgo8L3N2Zz4="),
+                default;
+            }
+        
+            .grab {
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My4wcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDI0IDI0Ij4KCTxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPgoJCTxwYXRoIGQ9Ik0xOCAxMS41VjlhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjEuNG0wLS40VjhhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjJmMC0uMVY5YTIgMiAwIDAg0tMi0yYTIgMiAwIDAg0tMiAydjVbTAgMGEyIDIgMCAwIDAtMi0yYTIgMiAwIDAg0tMiAydiIgLz4KCQk8cGF0aD4KCQk8L2nPgo8L2R2Zz4="),
+                grab;
+            }
+        
+            .grabbing {
+            cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My4wcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDI0IDI0Ij4KCTxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPgoJCTxwYXRoIGQ9Ik0xOCAxMS41VjlhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjEuNG0wLS40VjhhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjJmMC4xVjlhMiAyIDAgMCAwLTItMmEyIDIgMCAwIDAtMiAydjVbTAgMGEyIDIgMCAwIDAtMi0yYTIgMiAwIDAg0tMiAydiIgLz4KCQk8cGF0aD4KCQk8L2nPgo8L2R2Zz4="),
+                grabbing !important;
+            }
+        
+            /*=================
+                HEADER
+            ===================*/
+        
+            .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column;
+            margin: 3rem 0 4rem 0;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+                font-weight: 800;
+                color: black;
+                letter-spacing: 0.1rem;
+                text-transform: uppercase;
+                text-align: center;
+                opacity: 0; /* Set initial opacity for JS fade-in */
+                animation: fallback-show 0.1s forwards 0.5s; /* Quick fallback */
+            }
+
+            .accent-text {
+                color: var(--accent); /* Apply green color to span */
+            }
+        
+            /*=================
+                CARDS
+            ===================*/
+        
+            .cards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
+            }
+        
+            .card-wrap {
+            position: relative;
+            }
+        
+            .card-filter {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background: rgba(0, 0, 0, 0.1); /* Dark filter for contrast on background image */
+            z-index: 9;
+            pointer-events: none;
+            backdrop-filter: blur(0.2rem);
+            opacity: 0;
+            transition: opacity 0.1s var(--anim);
+            }
+
+            /* --- Fallback Keyframes --- */
+            @keyframes fallback-show {
+                to {
+                    opacity: 1;
+                    filter: blur(0);
+                }
+            }
+        
+            .card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+            height: 22rem;
+            width: 14rem;
+            min-height: 22rem;
+            min-width: 14rem;
+            max-height: 22rem;
+            max-width: 14rem;
+            margin: 1rem;
+            padding: 1rem;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Dark border on white background */
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            opacity: 0;
+            /* Fallback animation: if JS fails, show the cards after 1.5s delay */
+            animation: fallback-show 0.1s forwards 1.5s; 
+            transition: opacity 0.4s var(--anim), transform 0.3s var(--anim);
+            color: white; /* Card content remains white for contrast against background image */
+            }
+
+            @media (max-width: 600px) {
+                .card {
+                    width: 90%;
+                    max-width: 100%;
+                    min-width: unset;
+                }
+            }
+        
+            .draggable--over .card {
+            opacity: 0.5 !important;
+            filter: blur(0.5rem) !important;
+            transform: scale(0.8) !important;
+            box-shadow: none;
+            border: none;
+            }
+        
+            .draggable-mirror {
+            z-index: 99;
+            opacity: 1;
+            }
+        
+            .draggable-mirror .card {
+            transform: scale(0.98) rotate(5deg);
+            }
+        
+            .card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* Ensure background image covers the whole card */
+            height: 100%;
+            object-fit: cover; /* Important for responsive background image */
+            z-index: -1;
+            pointer-events: none;
+            user-select: none;
+            }
+        
+            .card-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 0.25rem;
+            }
+        
+            .card-status {
+            margin: 0.25rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2); /* Dark background for status on light image */
+            backdrop-filter: blur(0.5rem);
+            width: 5rem;
+            height: 1.5rem;
+            border-radius: var(--radius);
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            pointer-events: none;
+            user-select: none;
+            }
+        
+            .card-status-dot {
+            height: 0.3rem;
+            width: 0.3rem;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.75rem;
+            }
+        
+            @keyframes pulse {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(3);
+                opacity: 0;
+            }
+            }
+        
+            .card-status-dot:after {
+            content: "";
+            height: 100%;
+            width: 100%;
+            background: inherit;
+            border-radius: 50%;
+            animation: pulse 1s var(--anim) infinite;
+            }
+        
+            .card-status-dot.online {
+            background: var(--accent); /* Green online status */
+            }
+            .card-status-dot.offline {
+            background: grey;
+            }
+        
+            .card-status-dot.offline:after {
+            animation: none;
+            }
+        
+            .card-status-text {
+            font-size: 0.7rem;
+            opacity: 0.75;
+            }
+        
+            .card-handle {
+            background: rgba(0, 0, 0, 0.4); /* Dark background for handle */
+            backdrop-filter: blur(0.1rem);
+            border-radius: 50%;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            height: 2.5rem;
+            width: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        
+            .card-handle-tip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            }
+        
+            .handle {
+            width: 100%;
+            height: 1.25rem;
+            color: white; /* Handle icon white on dark background */
+            }
+        
+            .card-name-wrap {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin: 0.75rem 0;
+            }
+        
+            .card-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-right: 0.5rem;
+            }
+        
+            .card-verification {
+            font-size: 1.25rem;
+            color: var(--accent); /* Green Verified Tick */
+            filter: drop-shadow(0 0 0.5rem var(--accent));
+            }
+        
+            .card-tags {
+            display: flex;
+            align-items: center;
+            flex-flow: row;
+            margin: 0.5rem 0;
+            }
+        
+            .card-tag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(0.5rem);
+            padding: 0.3rem 0.5rem;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+            pointer-events: none;
+            }
+        
+            .card-tag-icon {
+            margin-right: 0.25rem;
+            }
+        
+            .card-rating-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.5rem;
+            }
+            .card-rating-star {
+            font-size: 0.5rem;
+            }
+        
+            .card-rating-stars {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        
+            .card-description {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin: 0.5rem 0 1rem 0;
+            /*initial*/
+            opacity: 0.75;
+            }
+        
+            .card-button {
+            padding: 0.3rem 0.3rem 0.3rem 0.5rem;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s var(--anim);
+            }
+            
+            .card-button:hover {
+                background: var(--accent); /* Green on hover */
+            }
+        
+            .card-button-call {
+            background: var(--bg); /* White background for the inner circle */
+            min-height: 2.5rem;
+            min-width: 2.5rem;
+            border-radius: 50%;
+            color: var(--accent); /* Green Call Symbol */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+            }
+        
+            .card-button-call-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            font-size: 1.2rem;
+            }
+        
+            .card-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 20rem;
+            width: 100%;
+            z-index: 0;
+            opacity: 0.75;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+            pointer-events: none;
+            }
+        
+            /*=================
+                FOOTER
+            ===================*/
+        
+            .footer {
+            margin: 4rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+        
+            .follow {
+            color: black; /* Changed footer text to black */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-flow: column;
+            }
+
+            .follow:hover {
+                color: var(--accent);
+            }
+        
+            .follow-x {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem 0;
+            }
+        
+            .follow-logo {
+            height: 2rem;
+            width: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.5rem;
+            margin-right: 0.5rem;
+            color: white; /* Icon is white */
+            background: black; /* Background is black */
+            }
+        
+            .follow-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            flex-flow: column;
+            }
+        
+            .follow-us {
+            text-transform: uppercase;
+            opacity: 0.5;
+            font-size: 0.7rem;
+            }
+        
+            .follow-handle {
+            font-weight: 700;
+            margin: 0.25rem 0;
+            }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-green': '#059669', // Emerald 600
+                        'dark-text': '#1f2937', // Gray 800
+                        'light-text': '#4b5563', // Gray 600
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Use Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+    </style>
+    <style>
+        /* Use Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+    </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            /* Changed centering to flow vertically and added padding */
+            padding: 0; 
+        }
+        
+        /* New style for main content wrapper */
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Styles for new headings */
+        .main-heading {
+            font-size: 36px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .sub-heading {
+            font-size: 24px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+
+        .slider-container {
+            width: 100%;
+            /* Reduced height to make room for headings */
+            height: 80vh; 
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .now-showing {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #9fff6b;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .now-showing::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #9fff6b;
+            border-radius: 50%;
+        }
+
+        .accordion-slider {
+            display: flex;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            filter: grayscale(1);
+        }
+
+        .slide:hover {
+            filter: grayscale(0);
+        }
+
+        .slide.active {
+            flex: 2.5;
+            filter: grayscale(0);
+        }
+
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 80%);
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            color: white;
+            z-index: 2;
+        }
+
+        .slide.active .slide-content {
+            bottom: 80px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+        }
+
+        .slide-number {
+            font-size: 64px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1;
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active .slide-number {
+            bottom: auto;
+            top: -50px;
+            font-size: 48px;
+            left: 0;
+        }
+
+        .car-brand {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+            transform: rotate(-90deg);
+            transform-origin: left bottom;
+            position: absolute;
+            bottom: 100px;
+            left: 30px;
+            white-space: nowrap;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active .car-brand {
+            transform: rotate(0deg);
+            position: static;
+            transform-origin: unset;
+        }
+
+        .car-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0s;
+        }
+
+        .slide.active .car-name {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        .car-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0s;
+        }
+
+        .slide.active .car-subtitle {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.4s;
+        }
+
+        .car-specs {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0s;
+        }
+
+        .slide.active .car-specs {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.5s;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active .spec-row {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide.active .spec-row:nth-child(1) {
+            transition-delay: 0.6s;
+        }
+        .slide.active .spec-row:nth-child(2) {
+            transition-delay: 0.65s;
+        }
+        .slide.active .spec-row:nth-child(3) {
+            transition-delay: 0.7s;
+        }
+        .slide.active .spec-row:nth-child(4) {
+            transition-delay: 0.75s;
+        }
+
+        .spec-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .spec-value {
+            color: white;
+            font-weight: 600;
+        }
+
+        .performance-badges {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0s;
+        }
+
+        .slide.active .performance-badges {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.8s;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active .badge {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .slide.active .badge:nth-child(1) {
+            transition-delay: 0.85s;
+        }
+        .slide.active .badge:nth-child(2) {
+            transition-delay: 0.9s;
+        }
+        .slide.active .badge:nth-child(3) {
+            transition-delay: 0.95s;
+        }
+
+        .badge-icon {
+            width: 8px;
+            height: 8px;
+            background: #9fff6b;
+            border-radius: 50%;
+        }
+
+        .add-button {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: 2px solid #9fff6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            z-index: 3;
+        }
+
+        .add-button::before,
+        .add-button::after {
+            content: "";
+            position: absolute;
+            background: #9fff6b;
+            transition: all 0.4s ease;
+        }
+
+        .add-button::before {
+            width: 12px;
+            height: 2px;
+        }
+
+        .add-button::after {
+            width: 2px;
+            height: 12px;
+            transform: rotate(0deg);
+        }
+
+        .slide.active .add-button::before {
+            transform: rotate(0deg);
+        }
+
+        .slide.active .add-button::after {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .navigation-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 4;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-prev {
+            left: 20px;
+        }
+
+        .nav-next {
+            right: 20px;
+        }
+
+        .navigation-arrows:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .accordion-slider {
+                flex-direction: column;
+            }
+
+            .slide {
+                flex: 1;
+                min-height: 80px;
+            }
+
+            .slide.active {
+                flex: 2;
+            }
+
+            .slide-number {
+                font-size: 32px;
+            }
+
+            .car-brand {
+                transform: none;
+                position: static;
+            }
+        }
+    </style>
+    <style>
+        /* Use Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        /* Define custom colors and fonts */
+        :root {
+            --accent-green: #10804E; /* Custom muted green, closer to image */
+            --highlight-yellow: #ffc400;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Primary font for text */
+            background-color: #ffffff; /* Light gray page background */
+        }
+        .playfair-font {
+            font-family: 'Playfair Display', serif; /* Special font for quote */
+        }
+
+        /* Custom styles for the single, large curved background element */
+        .green-curve-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.1; /* Make it subtle */
+        }
+        .green-curve-bg::before {
+            content: '';
+            position: absolute;
+            bottom: -500px;
+            right: -500px;
+            width: 1200px; 
+            height: 1200px; 
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            transform: rotate(-10deg);
+        }
+
+        /* Specific styling for the star icons */
+        .star-rating-partial::before {
+            content: '★★★★☆'; 
+            color: var(--highlight-yellow);
+            font-size: 1rem;
+            letter-spacing: -1px;
+        }
+        /* Custom green color utility */
+        .bg-accent { background-color: var(--accent-green); }
+        .text-accent { color: var(--accent-green); }
+        
+        /* --- Carousel Specific Styles --- */
+        #review-carousel-viewport {
+            /* Defines the area where only 3 reviews are visible */
+            height: 360px; /* 3 reviews * 120px height per item */
+            overflow: hidden;
+            position: relative;
+        }
+
+        #reviews-list {
+            /* This is the list that slides up/down */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transition: transform 0.5s ease-in-out; /* Smooth transition */
+        }
+
+        .review-item {
+            /* Fixed height for each item */
+            height: 120px; 
+            display: flex;
+            align-items: center;
+            opacity: 0.5; /* Faded when not active */
+            transition: all 0.5s ease-in-out;
+            padding-left: 1rem; /* Adjust padding for visual alignment with border */
+        }
+
+        .review-item.active {
+            /* Highlight the currently centered item */
+            opacity: 1;
+            box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: 1px solid var(--accent-green); /* Optional subtle border */
+        }
+
+        /* Style for placeholder initials */
+        .initials-bg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 50%;
+            width: 64px;
+            height: 64px;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Main Container - Padding for edges -->
+    <div class="max-w-7xl mx-auto ">
+
+        <!-- 1. Navigation Bar -->
+        <header class="sticky top-0 z-50 bg-white flex items-center justify-between h-20 border-b border-gray-100">
+            <!-- Logo -->
+            <a href="#" class="flex items-center s">
+                <!-- Simple Logo: M + Tree icon/shape -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                    <path d="M12 2L10 6L14 6L12 2Z" fill="#1a1a1a"/>
+                    <path d="M12 8C10 8 9 10 9 12C9 14 10 16 12 16C14 16 15 14 15 12C15 10 14 8 12 8Z" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 16V22" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xl font-bold">social</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex space-x-8 items-center text-sm font-medium">
+                <a href="#" class="text-gray-700 hover:text-green-600 transition duration-150">Product</a>
+                <a href="#" class="text-gray-700 hover:text-green-600 transition duration-150">Why us</a>
+                <a href="aboutus.html" class="text-gray-700 hover:text-green-600 transition duration-150">About us</a>
+                <a href="#" class="text-gray-700 hover:text-green-600 transition duration-150">Cases</a>
+                <a href="#" class="text-gray-700 hover:text-green-600 transition duration-150">Blog</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hidden sm:inline-block border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition duration-150">
+                    Book a demo
+                </a>
+                <!-- Language Dropdown -->
+                <div class="relative">
+                    <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 transition duration-150">
+                        <span id="language-button-text">English</span>
+                        <svg id="language-arrow" class="w-4 h-4 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="language-menu" class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-1 hidden z-10">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Spanish</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">French</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">German</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Hindi</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. Hero Section -->
+        <main class=" pb-24  lg:pb-24 " id="hero-section">
+            <div class="lg:flex items-start space-x-12">
+                
+                <!-- Left Column: Content and CTA -->
+                <div class="lg:w-1/2  mt-5 pt-5 herotext lg:mt-20 lg:pt-20">
+                    <!-- Headline -->
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight ">
+                        Put <span class="highlighted-text">people</span> <span class="highlighted-text">first</span>
+                    </h1>
+
+                    <!-- Subtitle/Description -->
+                    <p class="text-lg text-gray-700 max-w-lg mb-10">
+                        Fast, user-friendly and engaging - turn HR into people and culture and streamline your daily operations with your own branded app.
+                    </p>
+
+                    <!-- CTA Form -->
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 max-w-md">
+                        <input type="email" placeholder="Enter work email" class="flex-grow px-5 py-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm" aria-label="Work Email Input">
+                        <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition duration-150 shadow-md shadow-green-200/50">
+                            Book a demo
+                        </button>
+                    </div>
+
+                    <!-- Statistics and Rating -->
+                    <div class="mt-16 flex flex-col sm:flex-row sm:space-x-16 space-y-8 sm:space-y-0 items-start">
+                        <!-- Stat 1 -->
+                        <div>
+                            <p class="text-4xl font-bold">75.2%</p>
+                            <p class="text-sm text-gray-500 mt-1">Average daily activity</p>
+                        </div>
+                        
+                        <!-- Stat 2 -->
+                        <div>
+                            <p class="text-4xl font-bold">~20k</p>
+                            <p class="text-sm text-gray-500 mt-1">Average daily users</p>
+                        </div>
+
+                        <!-- Rating -->
+                        <div class="flex flex-col items-start pt-2">
+                            <div class="flex text-black space-x-1">
+                                <!-- 5 Stars -->
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/></svg>
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/></svg>
+                                <svg class="w-5 h-5 fill-current text-gray-700" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/></svg>
+                            </div>
+                            <p class="text-sm font-medium mt-1">4.5 Average user rating</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Isometric Illustration (Replaced with a simplified SVG for single-file constraint) -->
+                <div class="lg:w-1/2 lg:pt-0 flex justify-end items-center">
+                  <img src="hero.png" alt="" style="width: 880px; height: 770px;">
+                </div>
+            </div>
+        </main>
+
+        <!-- Trusted By Section -->
+        <div class="container mx-auto px-4 py-16">
+            <!-- Main Heading Section -->
+            <header class="text-center mb-16">
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-800 leading-tight">
+                    Millions of teams are saving time with <span class="text-green-600 highlighted-text">Consulting Services</span>
+                </h2>
+                <p class="mt-4 text-lg text-gray-500 font-medium">Trusted by leading enterprises and fast-growing startups worldwide.</p>
+            </header>
+    
+            <!-- Logo Grid Section - STATIC LAYOUT -->
+            <div class="logo-grid-container py-8">
+                <!-- Grid is 2 columns on mobile, 3 columns on tablet, 6 columns on desktop -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-y-8 gap-x-6 max-w-6xl mx-auto items-center justify-center">
+    
+                    <!-- Logo 1: Google -->
+                    <img class="logo-filter mx-auto cursor-pointer"
+                         src="https://cdna.iconscout.com/img/google.c0129cb.svg"
+                         alt="Google Logo">
+
+                    <!-- Logo 2: Microsoft -->
+                    <img class="logo-filter mx-auto cursor-pointer"
+                         src="https://cdna.iconscout.com/img/microsoft.c051f44.svg"
+                         alt="Microsoft Logo">
+
+                    <!-- Logo 3: Disney -->
+                    <img class="logo-filter mx-auto cursor-pointer"
+                         src="https://cdna.iconscout.com/img/disney.042cf1c.svg"
+                         alt="Disney Logo">
+
+                    <!-- Logo 4: Spotify -->
+                    <img class="logo-filter mx-auto cursor-pointer"
+                         src="https://cdna.iconscout.com/img/spotify.f536f34.svg"
+                         alt="Spotify Logo">
+
+                    <!-- Logo 5: Amazon -->
+                    <img class="logo-filter mx-auto cursor-pointer"
+                         src="https://cdna.iconscout.com/img/amazon.90c4794.svg"
+                         alt="Amazon Logo">
+                    
+                    <!-- Logo 6: Netflix -->
+                    <img class="logo-filter mx-auto cursor-pointer"
+                         src="https://cdna.iconscout.com/img/netflix.41650dc.svg"
+                         alt="Netflix Logo">
+    
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+        <!--  Header - Updated -->
+        <header class="header">
+            <h1 class="main-title">OUR TOP <span class="accent-text">PHYSICIANS</span></h1>
+        </header>
+
+        <!--  Profile Cards -->
+        <section class="cards">
+
+            <!-- ‍ Card 1 -->
+            <div class="card-wrap">
+                <div class="card">
+                    <div class="card-filter"></div>
+                    <img src="https://i.pinimg.com/736x/fd/5d/b0/fd5db03cfc44d0f9b6b4d4b7fdb05340.jpg" alt="bg" class="card-bg" onerror="this.onerror=null; this.src='https://placehold.co/600x800/222/ffffff?text=Lukas+Meier'">
+
+                    <!--  Status -->
+                    <div class="card-status">
+                        <div class="card-status-dot online"></div>
+                        <div class="card-status-text">Online</div>
+                    </div>
+
+                    <!-- ✋ Drag Handle -->
+                    <div class="card-handle grab">
+                        <div class="card-handle-tip" aria-label="Drag" data-microtip-position="left" role="tooltip">
+                            <span class="iconify handle" data-icon="ic:outline-drag-indicator"></span>
+                        </div>
+                    </div>
+
+                    <!--  Content -->
+                    <div class="card-content">
+
+                        <!--  Name + Verified -->
+                        <div class="card-name-wrap">
+                            <div class="card-name">Lukas Meier</div>
+                            <div class="card-verfied" aria-label="Verified" data-microtip-position="right" role="tooltip">
+                                <span class="card-verification iconify" data-icon="si:verified-fill"></span>
+                            </div>
+                        </div>
+
+                        <!-- ⭐ Tags + Stats -->
+                        <div class="card-tags">
+                            <div class="card-tag">
+                                <div class="card-rating-text">4.5</div>
+                                <div class="card-rating-stars">
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled-half"></span>
+                                </div>
+                            </div>
+                            <div class="card-tag">
+                                <span class="iconify card-tag-icon" data-icon="line-md:account"></span>
+                                <div class="card-rating-text">3.1 K</div>
+                            </div>
+                        </div>
+
+                        <!--  Description -->
+                        <div class="card-description">
+                            Digital product designer crafting intuitive, scalable user journeys
+                        </div>
+
+                        <!--  Contact Button -->
+                        <div class="card-button pointer">
+                            <div class="card-button-text pointer">Get In Touch</div>
+                            <div class="card-button-call pointer">
+                                <span class="card-button-call-icon iconify pointer" data-icon="line-md:phone-call-loop"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-fade"></div>
+                </div>
+            </div>
+
+            <!-- ‍ Card 2 -->
+            <div class="card-wrap">
+                <div class="card">
+                    <div class="card-filter"></div>
+                    <img src="https://i.pinimg.com/736x/80/b2/ff/80b2ff0b40a7b586cdd4cd8ff264d7a9.jpg" alt="bg" class="card-bg" onerror="this.onerror=null; this.src='https://placehold.co/600x800/222/ffffff?text=Max+Steiner'">
+
+                    <!--  Status -->
+                    <div class="card-status">
+                        <div class="card-status-dot online"></div>
+                        <div class="card-status-text">Online</div>
+                    </div>
+
+                    <!-- ✋ Drag Handle -->
+                    <div class="card-handle grab">
+                        <div class="card-handle-tip" aria-label="Drag" data-microtip-position="left" role="tooltip">
+                            <span class="iconify handle" data-icon="ic:outline-drag-indicator"></span>
+                        </div>
+                    </div>
+
+                    <!--  Content -->
+                    <div class="card-content">
+
+                        <!--  Name + Verified -->
+                        <div class="card-name-wrap">
+                            <div class="card-name">Max Steiner</div>
+                            <div class="card-verfied" aria-label="Verified" data-microtip-position="right" role="tooltip">
+                                <span class="card-verification iconify" data-icon="si:verified-fill"></span>
+                            </div>
+                        </div>
+
+                        <!-- ⭐ Tags + Stats -->
+                        <div class="card-tags">
+                            <div class="card-tag">
+                                <div class="card-rating-text">4.0</div>
+                                <div class="card-rating-stars">
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star"></span>
+                                </div>
+                            </div>
+                            <div class="card-tag">
+                                <span class="iconify card-tag-icon" data-icon="line-md:account"></span>
+                                <div class="card-rating-text">2.4 K</div>
+                            </div>
+                        </div>
+
+                        <!--  Description -->
+                        <div class="card-description">
+                            Digital designer turning complex workflows into seamless journeys
+                        </div>
+
+                        <!--  Contact Button -->
+                        <div class="card-button pointer">
+                            <div class="card-button-text pointer">Get In Touch</div>
+                            <div class="card-button-call pointer">
+                                <span class="card-button-call-icon iconify pointer" data-icon="line-md:phone-call-loop"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-fade"></div>
+                </div>
+            </div>
+
+            <!-- ‍ Card 3 -->
+            <div class="card-wrap">
+                <div class="card">
+                    <div class="card-filter"></div>
+                    <img src="https://i.pinimg.com/736x/37/d4/7b/37d47b1d8979b4fe22014c89bedd5c10.jpg" alt="bg" class="card-bg" onerror="this.onerror=null; this.src='https://placehold.co/600x800/222/ffffff?text=Ueli+Huber'">
+
+                    <!--  Status -->
+                    <div class="card-status">
+                        <div class="card-status-dot offline"></div>
+                        <div class="card-status-text">Offline</div>
+                    </div>
+
+                    <!-- ✋ Drag Handle -->
+                    <div class="card-handle grab">
+                        <div class="card-handle-tip" aria-label="Drag" data-microtip-position="left" role="tooltip">
+                            <span class="iconify handle" data-icon="ic:outline-drag-indicator"></span>
+                        </div>
+                    </div>
+
+                    <!--  Content -->
+                    <div class="card-content">
+
+                        <!--  Name + Verified -->
+                        <div class="card-name-wrap">
+                            <div class="card-name">Ueli Huber</div>
+                            <div class="card-verfied" aria-label="Verified" data-microtip-position="right" role="tooltip">
+                                <span class="card-verification iconify" data-icon="si:verified-fill"></span>
+                            </div>
+                        </div>
+
+                        <!-- ⭐ Tags + Stats -->
+                        <div class="card-tags">
+                            <div class="card-tag">
+                                <div class="card-rating-text">5.0</div>
+                                <div class="card-rating-stars">
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                    <span class="iconify card-rating-star" data-icon="line-md:star-filled"></span>
+                                </div>
+                            </div>
+                            <div class="card-tag">
+                                <span class="iconify card-tag-icon" data-icon="line-md:account"></span>
+                                <div class="card-rating-text">1.7 K</div>
+                            </div>
+                        </div>
+
+                        <!--  Description -->
+                        <div class="card-description">
+                            UX strategist designing frictionless, data-driven digital experiences
+                        </div>
+
+                        <!--  Contact Button -->
+                        <div class="card-button pointer">
+                            <div class="card-button-text pointer">Get In Touch</div>
+                            <div class="card-button-call pointer">
+                                <span class="card-button-call-icon iconify pointer" data-icon="line-md:phone-call-loop"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-fade"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-10 bg-white rounded-xl lg:mt-45 pt-5 mb-10">
+
+            <!-- Main Content Grid -->
+            <div class="lg:flex lg:space-x-12 mt-16">
+                
+                <!-- Left Column: Title and Description -->
+                <div class="lg:w-1/2 mb-10 lg:mb-0">
+                    <!-- *** UPDATED HEADING *** -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-dark-text tracking-tight mb-6">
+                        Digital Infrastructure Built for the <span class="highlighted-text">Social Consulting</span>
+                    </h1>
+                    <!-- *** UPDATED SUBTITLE HERE *** -->
+                    <p class="text-lg sm:text-xl text-light-text pr-8">
+                        Dedicated to empowering individuals and organizations with expert guidance, strategic insights, and customized solutions for measurable social impact.
+                    </p>
+                </div>
+                
+                <!-- Right Column: Statistics Grid -->
+                <div class="lg:w-1/2">
+                    <div class="grid grid-cols-2 gap-8 sm:gap-12">
+                        
+                        <!-- Stat 1: Clients satisfied -->
+                        <div class="space-y-1">
+                            <div class="text-4xl sm:text-5xl font-bold text-primary-green">200K+</div>
+                            <p class="text-light-text text-base sm:text-lg">Clients satisfied</p>
+                        </div>
+
+                        <!-- Stat 2: Consultants / Doctors -->
+                        <div class="space-y-1">
+                            <div class="text-4xl sm:text-5xl font-bold text-primary-green">200+</div>
+                            <p class="text-light-text text-base sm:text-lg">Consultants / Doctors</p>
+                        </div>
+                        
+                        <!-- Stat 3: Visitors per day -->
+                        <div class="space-y-1">
+                            <div class="text-4xl sm:text-5xl font-bold text-primary-green">2K+</div>
+                            <p class="text-light-text text-base sm:text-lg">Visitors per day</p>
+                        </div>
+
+                        <!-- Stat 4: Companies believe us -->
+                        <div class="space-y-1">
+                            <div class="text-4xl sm:text-5xl font-bold text-primary-green">50+</div>
+                            <p class="text-light-text text-base sm:text-lg">Companies believe us</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        
+
+        
+
+        
+
+        
+
+    </div>
+
+    <!-- Simple JS to add a class to the body on load if needed, but the template is purely HTML/CSS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("social UI is loaded.");
+
+            const langButton = document.getElementById('language-button');
+            const langButtonText = document.getElementById('language-button-text');
+            const langMenu = document.getElementById('language-menu');
+            const langArrow = document.getElementById('language-arrow');
+
+            if (langButton && langMenu && langArrow && langButtonText) {
+                langButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    langMenu.classList.toggle('hidden');
+                    langArrow.classList.toggle('rotate-180');
+                });
+
+                // Add click listeners to each language link
+                const langLinks = langMenu.querySelectorAll('a');
+                langLinks.forEach(link => {
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault(); // Prevent navigation
+                        const selectedLanguage = event.target.textContent;
+                        langButtonText.textContent = selectedLanguage;
+                        
+                        // Close the dropdown
+                        langMenu.classList.add('hidden');
+                        langArrow.classList.remove('rotate-180');
+                    });
+                });
+            }
+
+            // Close the dropdown when clicking outside of it
+            document.addEventListener('click', (event) => {
+                if (langMenu && !langMenu.classList.contains('hidden')) {
+                    const isClickInside = langButton.contains(event.target) || langMenu.contains(event.target);
+                    if (!isClickInside) {
+                        langMenu.classList.add('hidden');
+                        langArrow.classList.remove('rotate-180');
+                    }
+                }
+            });
+
+            // --- Review Data ---
+            // Reviews modified to sound like a Consulting Firm Testimonial (focusing on strategy, efficiency, and ROI)
+            const allReviews = [
+                { id: 0, name: "Jessica L. Chen", date: "15 Apr, 2023", rating: "4.9", quote: "The strategic roadmap they developed gave us the clarity needed to execute a major digital transformation initiative. We saw 20% growth in efficiency within the first quarter.", initials: "JC", color: "bg-blue-600" },
+                { id: 1, name: "Robert A. Wilson", date: "03 Jun, 2023", rating: "5.0", quote: "Their operational audit was incredibly insightful. We implemented the recommended framework and reduced overhead by 15% without sacrificing quality or speed.", initials: "RW", color: "bg-pink-600" },
+                { id: 2, name: "Emily K. Davis", date: "20 Sep, 2023", rating: "4.8", quote: "A truly collaborative partner. They helped us align our technology investments with our long-term business goals, securing executive buy-in across the board.", initials: "ED", color: "bg-orange-600" },
+                { id: 3, name: "Michael V. Lopez", date: "11 Nov, 2023", rating: "4.9", quote: "The team provided expert guidance on market entry strategy. Their data-driven approach minimized our risk and accelerated our time-to-market significantly.", initials: "ML", color: "bg-purple-600" },
+                { id: 4, name: "Sarah B. Greene", date: "05 Feb, 2024", rating: "5.0", quote: "We engaged them for change management during a merger. Their approach was seamless and ensured all stakeholders were fully onboarded, making the transition painless.", initials: "SG", color: "bg-teal-600" }
+            ];
+
+            // --- DOM Elements ---
+            const reviewsListEl = document.getElementById('reviews-list');
+            const mainQuoteEl = document.getElementById('main-quote');
+            const itemHeight = 120; // Must match .review-item height in CSS
+            const visibleItems = 3;
+            
+            // --- Carousel State ---
+            let currentIndex = 0; // The index of the review visible at the top of the viewport
+            const totalItems = allReviews.length;
+
+            // --- Utility Function to Render Review Item HTML ---
+            const renderReviewItem = (review, index) => {
+                // Note: 'active' class is applied later based on what's visible in the middle
+                const isActive = index === 1; 
+
+                return `
+                    <div id="review-${index}" class="review-item" data-index="${index}">
+                        <div class="initials-bg ${review.color} mr-4">${review.initials}</div>
+                        <div>
+                            <p class="font-semibold text-lg text-gray-800">${review.name}</p>
+                            <div class="flex items-center text-sm text-gray-500 mt-1">
+                                <span class="star-rating-partial mr-2"></span>
+                                <span class="font-medium text-gray-600">${review.rating}</span>
+                                <span class="ml-2 text-gray-400">on ${review.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+            
+            // --- Pre-populate list with looped content for smooth transition ---
+            const createLoopedList = () => {
+                 // Create a list with last item, all items, and first item for seamless loop simulation
+                let listContent = '';
+
+                // 1. Prepend the last item (to allow smooth transition from 0 to last)
+                listContent += renderReviewItem(allReviews[totalItems - 1], totalItems - 1);
+
+                // 2. Add all main items
+                listContent += allReviews.map(renderReviewItem).join('');
+
+                // 3. Append the first item (to allow smooth transition from last to 0)
+                listContent += renderReviewItem(allReviews[0], totalItems); // Use totalItems as a temporary ID for the first item clone
+
+                reviewsListEl.innerHTML = listContent;
+
+                // Start list positioned at the first real item (index 1 of the looped list)
+                // -1 compensates for the prepended clone
+                reviewsListEl.style.transform = `translateY(-${itemHeight}px)`;
+                
+                // Set initial active state and quote
+                updateActiveStateAndQuote(0);
+            }
+
+            // --- Update Active State and Quote ---
+            const updateActiveStateAndQuote = (realIndex) => {
+                // Remove active class from all
+                document.querySelectorAll('.review-item').forEach(item => item.classList.remove('active'));
+
+                // The 'active' item is the one in the middle of the viewport
+                // When index is 0, the active item is the 1st review (index 1 in the list)
+                // We need to target the element that is visually centered.
+                // When currentIndex is X, the visually active item is (X + 1) in the *main* review set.
+                
+                // Find the active review index (which is `realIndex` in the original array)
+                const activeReviewData = allReviews[realIndex];
+                mainQuoteEl.textContent = activeReviewData.quote;
+                
+                // Loop through all *visible* items and apply 'active' class to the correct one.
+                // The items are visually centered based on the current list position.
+                // Since we show 3, the middle item is the active one.
+                
+                // The item at the current top position + 1 is the center-most item.
+                // The offset is currentIndex + 1 (because of the prepended clone).
+                const children = reviewsListEl.children;
+                
+                // The item that is visually centered is always at the current loop index + 1 (due to the clone)
+                // We need to find the element whose *real* data index matches the `realIndex`.
+                
+                // A simpler approach is to use the `transform` to know which group is centered.
+                // We apply the active state to the item at index (currentIndex + 1) of the children array
+                const visualCenterIndex = currentIndex + 1;
+                if (children[visualCenterIndex]) {
+                    children[visualCenterIndex].classList.add('active');
+                }
+                
+            };
+
+            // --- Rotation/Slide Logic ---
+            const slide = () => {
+                // Increment the index of the review at the top of the viewport
+                currentIndex++;
+                let realIndex = currentIndex % totalItems;
+
+                // Apply the slide transform
+                reviewsListEl.style.transform = `translateY(-${currentIndex * itemHeight}px)`;
+
+                // If we reach the end of the original list (the first item clone)
+                if (currentIndex > totalItems) {
+                    // Instantly jump back to the starting position (the first real item)
+                    // We use setTimeout to allow the transition to finish before snapping back
+                    setTimeout(() => {
+                        reviewsListEl.style.transition = 'none'; // Disable transition for snap
+                        currentIndex = 1; // Reset to show the second item in the list (index 1 in reviewsListEl, which is the first real review)
+                        reviewsListEl.style.transform = `translateY(-${itemHeight}px)`; // Snap position
+                        // Re-enable transition for the next loop
+                        setTimeout(() => {
+                            reviewsListEl.style.transition = 'transform 0.5s ease-in-out';
+                        }, 50);
+                    }, 500); // 500ms should match the CSS transition duration
+                }
+                
+                // Update the active state and quote
+                // We need the modulo operation to wrap the index correctly for the data array
+                updateActiveStateAndQuote(realIndex);
+            };
+
+            // --- Initialize and Start ---
+            window.onload = () => {
+                createLoopedList();
+                // Start the sliding loop
+                setInterval(slide, 3500); 
+            };
+        });
+    </script>
+                      
+            
+        
+
+    </script>
+    <script type="module">
+        // ---  Imports ---
+        import { animate, hover, press } from "https://esm.sh/motion";
+        import { Howl } from "https://esm.sh/howler";
+        import { Sortable, Plugins } from "https://esm.sh/ @shopify/draggable";
+        
+        // ---  Touch Support ---
+        const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+        
+        // ---  Constants ---
+        // Define the accent color (Green) for use in JS animations
+        const ACCENT_COLOR = '#10b981'; 
+        const BUTTON_BG_DEFAULT = "rgba(255, 255, 255, 0.2)";
+
+        // ---  Audio Helper ---
+        let playAudio = true;
+        let ended = true;
+        let currentSound;
+        
+        // ▶️ Play audio file with optional volume/speed
+        const play = async (file, volume = 0.5, speed = 1) => {
+            try {
+                // Attempt to resume audio context if suspended (common in browsers for autoplay policies)
+                const context = new (window.AudioContext || window.webkitAudioContext)();
+                await context.resume().catch(() => { console.log("Audio context resume failed or wasn't needed."); });
+                
+                // Only proceed if context is running or will resume
+                if (context.state === "suspended" && playAudio) {
+                    // If it's still suspended, try to resume on user interaction later.
+                    return false;
+                }
+            } catch (error) {
+                // If AudioContext is not supported or fails
+                console.error("Audio initialization error:", error);
+                playAudio = false;
+                return false;
+            }
+
+            if (!playAudio) return false;
+        
+            currentSound?.stop(); // stop any current sound
+            ended = false;
+        
+            currentSound = new Howl({
+                src: [file],
+                autoplay: playAudio,
+                volume,
+                rate: speed,
+                onend: () => {
+                    ended = true;
+                    currentSound = null;
+                },
+                onloaderror: (id, error) => {
+                    console.error(`Error loading audio file ${file}:`, error);
+                    playAudio = false; // Disable audio if an error occurs
+                }
+            });
+        
+            return true;
+        };
+        
+        // ---  DOM Elements ---
+        const cards = document.querySelector(".cards");
+        
+        // --- ️ Main Title Animation ---
+        const mainTitle = document.querySelector(".main-title");
+        if (mainTitle) {
+            animate(mainTitle, { y: [20, 0], opacity: [0, 1] }, { delay: 0.1 });
+        }
+
+        // ---  Sortable Cards Init ---
+        // Ensure the container exists before initializing Sortable
+        if (cards) {
+            const sortable = new Sortable(cards, {
+                draggable: ".card-wrap",
+                // Disable handle on touch devices to make the whole card draggable,
+                // otherwise use the designated handle element.
+                handle: isTouchDevice ? null : ".card-handle", 
+                plugins: [Plugins.SortAnimation]
+            });
+        
+            // ❌ Cancel mirror on drag end + animate disappearance
+            sortable.on("mirror:destroy", (e) => {
+                e.cancel();
+                const r = e.source.getBoundingClientRect();
+                animate(
+                    e.mirror,
+                    {
+                        x: r.left,
+                        y: r.top,
+                        filter: "blur(2rem)",
+                        opacity: 0,
+                        scale: 0.5
+                    },
+                    {
+                        x: { duration: 0.3 },
+                        y: { duration: 0.3 },
+                        filter: { duration: 0.5 },
+                        opacity: { duration: 0.5 },
+                        scale: { duration: 0.5 },
+                        onComplete: () => e.mirror.remove()
+                    }
+                );
+            });
+        
+            //  Play drag start sound
+            sortable.on("sortable:start", () => {
+                play("https://cdn.freesound.org/previews/582/582898_5965684-lq.mp3");
+                document.body.classList.add("grabbing");
+            });
+        
+            //  Play drop sound and animate dropped card
+            sortable.on("sortable:stop", (e) => {
+                document.body.classList.remove("grabbing");
+                play("https://cdn.freesound.org/previews/370/370962_5450487-lq.mp3");
+        
+                requestAnimationFrame(() => {
+                    animate(
+                        e.data.newContainer.children[e.data.newIndex],
+                        { scale: [1.1, 1] },
+                        { type: "spring", stiffness: 200, damping: 10 }
+                    );
+                });
+            });
+        }
+        
+        // --- ✨ Animate Each Card ---
+        const cardWrappers = document.querySelectorAll(".card-wrap");
+
+        cardWrappers.forEach((card, i) => {
+            const bg = card.querySelector(".card-bg");
+            const fade = card.querySelector(".card-fade");
+            const button = card.querySelector(".card-button");
+            const cardUI = card.querySelector(".card");
+            const handle = card.querySelector(".card-handle");
+            const name = card.querySelector(".card-name");
+            const description = card.querySelector(".card-description");
+        
+            // ️ Hover on card - fade + button color
+            hover(card, () => {
+                // Ensure elements exist before animating
+                if (fade) animate(fade, { opacity: 1 });
+                // Use the green accent color constant for button hover
+                if (button) animate(button, { background: ACCENT_COLOR }); 
+                return () => {
+                    if (fade) animate(fade, { opacity: 0.75 });
+                    if (button) animate(button, { background: BUTTON_BG_DEFAULT });
+                };
+            });
+        
+            //  Card Fade-in Animation
+            if (cardUI) {
+                // The JS animation overrides the CSS fallback, providing the smooth effect
+                animate(
+                    cardUI,
+                    {
+                        opacity: [0, 1],
+                        filter: ["blur(1rem)", "blur(0)"]
+                    },
+                    {
+                        duration: 0.8,
+                        delay: i / 4
+                    }
+                );
+            }
+        
+            //  Animate text entries
+            if (name) animate(name, { y: [20, 0], opacity: [0, 1] }, { delay: i / 4 + 0.3 });
+            if (description) {
+                animate(
+                    description,
+                    { y: [20, 0], opacity: [0, 0.75] }, /* Changed description opacity from 0.4 to 0.75 for better readability */
+                    { delay: i / 4 + 0.5 }
+                );
+            }
+        
+            //  Background Pulse
+            if (bg) {
+                animate(
+                    bg,
+                    {
+                        scale: [1, 1.2]
+                    },
+                    {
+                        duration: 15,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "linear"
+                    }
+                );
+            }
+        
+            //  Button Press Feedback
+            if (button) {
+                press(button, () => {
+                    animate(button, { scale: 1.1 });
+                    return () => animate(button, { scale: 1 });
+                });
+            }
+        
+            //  Handle Hover - zoom in effect
+            if (handle) {
+                hover(handle, () => {
+                    if (handle) animate(handle, { scale: 0.95 });
+                    if (bg) animate(bg, { scale: 1.1 }, { type: "spring", stiffness: 50, damping: 10 });
+                    if (cardUI) {
+                        animate(
+                            cardUI,
+                            { scale: 1.025 },
+                            { type: "spring", stiffness: 100, damping: 10 }
+                        );
+                    }
+        
+                    //  Reset scale + resume bg animation
+                    return () => {
+                        if (cardUI) {
+                            animate(
+                                cardUI,
+                                { scale: 1 },
+                                { type: "spring", stiffness: 100, damping: 10 }
+                            );
+                        }
+                        if (handle) animate(handle, { scale: 1 });
+                        
+                        // Stop the temporary zoom and restart the infinite pulse animation
+                        if (bg) {
+                            animate(
+                                bg,
+                                { scale: 1 },
+                                { type: "spring", stiffness: 50, damping: 10 }
+                            ).then(() => {
+                                animate(
+                                    bg,
+                                    {
+                                        scale: [1, 1.2]
+                                    },
+                                    {
+                                        duration: 15,
+                                        repeat: Infinity,
+                                        repeatType: "reverse",
+                                        ease: "linear"
+                                    }
+                                );
+                            });
+                        }
+                    };
+                });
+            }
+        });
+        
+        // --- ️ Footer animation ---
+        const follow = document.querySelector(".follow");
+        if (follow) {
+            animate(follow, { scale: [0.75, 1], opacity: [0, 0.75] }, { delay: 0.25 });
+            
+            hover(follow, () => {
+                animate(
+                    follow,
+                    { scale: 1.03, opacity: 1 },
+                    { type: "spring", stiffness: 200 }
+                );
+                return () => animate(follow, { scale: 1, opacity: 0.75 }, { type: "spring" });
+            });
+        }
+    </script>
+        
+    <!-- Outer container for the section, elevated with shadow -->
+    <div class="bg-white rounded-2xl p-8 lg:p-12 max-w-7xl  mx-auto">
+        
+        <!-- Green Curved Background Element -->
+        
+
+        <!-- Content Wrapper -->
+        <div class="relative z-10 p-8 sm:p-12 md:p-16 lg:p-20 flex flex-col lg:flex-row justify-between">
+            
+            <!-- Left Column: Customer Review Carousel -->
+            <div class="w-full lg:w-1/2 pr-0 lg:pr-16 mb-12 lg:mb-0">
+                <!-- NEW MAIN HEADING -->
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-10">
+                    Trusted by Thousands of Happy Customers
+                </h2>
+                <!-- END NEW MAIN HEADING -->
+
+                <div class="flex items-center mb-10">
+                    <!-- Accent line -->
+                    <span class="block w-8 h-1 bg-accent mr-2 rounded-full"></span>
+                    <h3 class="text-xl font-bold text-gray-800 tracking-wider">CUSTOMER REVIEWS</h3>
+                </div>
+
+                <!-- Carousel Viewport -->
+                <div id="review-carousel-viewport" class="max-w-md mx-auto lg:mx-0 border-l-4 border-gray-200">
+                    <!-- The list container that slides -->
+                    <div id="reviews-list">
+                        <!-- Review items will be generated here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Main Quote -->
+            <div class="w-full lg:w-1/2 pl-0 lg:pl-16 flex items-center justify-start lg:justify-end min-h-[400px]">
+                <blockquote class="text-3xl sm:text-4xl lg:text-5xl text-gray-700 font-normal leading-snug max-w-xl playfair-font">
+                    <!-- Large quotation mark -->
+                    <span class="block text-accent text-7xl leading-none -mt-4 mb-4 font-serif">“</span>
+                    <p id="main-quote">The strategic roadmap they developed gave us the clarity needed to execute a major digital transformation initiative. We saw 20% growth in efficiency within the first quarter.</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-white border-t border-gray-100 mt-20 pt-16 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-gray-100 pb-10 mb-10">
+    
+                <div class="md:col-span-1">
+                    <a href="#" class="flex items-center space-x-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0 text-gray-900">
+                            <path d="M12 2L10 6L14 6L12 2Z" fill="#1a1a1a"/>
+                            <path d="M12 8C10 8 9 10 9 12C9 14 10 16 12 16C14 16 15 14 15 12C15 10 14 8 12 8Z" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16V22" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-2xl font-bold text-gray-900">social</span>
+                    </a>
+                    <p class="mt-4 text-sm text-gray-500 max-w-xs">
+                        Putting people first through expert social consulting and digital infrastructure.
+                    </p>
+                    <div class="mt-6">
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-green-600 hover:text-green-700 transition duration-150">
+                            Stay Updated
+                            <span class="iconify w-4 h-4 ml-1" data-icon="fe:arrow-right" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+    
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Product</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Platform Features</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Case Studies</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Pricing & Plans</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Integrations</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Book a Demo</a></li>
+                    </ul>
+                </div>
+    
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Company</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">About Us</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Careers <span class="ml-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs font-medium">Hiring</span></a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Our Consultants</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Press & Media</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Contact Us</a></li>
+                    </ul>
+                </div>
+    
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Resources</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Help Center</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Blog</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Support Docs</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-600 transition duration-150">Terms of Service</a></li>
+                    </ul>
+                </div>
+    
+            </div>
+    
+            <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500">
+                <p class="mb-4 sm:mb-0">&copy; 2025 social. All rights reserved. Built with People First.</p>
+                
+                <div class="flex space-x-5">
+                    <a href="#" class="text-gray-400 hover:text-green-600 transition duration-150" aria-label="LinkedIn">
+                        <span class="iconify w-6 h-6" data-icon="mdi:linkedin"></span>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-green-600 transition duration-150" aria-label="X (Twitter)">
+                        <span class="iconify w-6 h-6" data-icon="mdi:twitter"></span>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-green-600 transition duration-150" aria-label="Instagram">
+                        <span class="iconify w-6 h-6" data-icon="mdi:instagram"></span>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-green-600 transition duration-150" aria-label="Facebook">
+                        <span class="iconify w-6 h-6" data-icon="mdi:facebook"></span>
+                    </a>
+                </div>
+            </div>
+    
+        </div>
+    </footer>
+    </body>
+</html>

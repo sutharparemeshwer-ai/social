@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>social - About Us</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load Iconify for vector icons -->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP Core --><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- GSAP ScrollTrigger Plugin --><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- GSAP ScrollSmoother Plugin (for smooth scrolling effect) --><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollSmoother.min.js"></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-green': '#059669', // Emerald 600
+                        'dark-text': '#1f2937', // Gray 800
+                        'light-text': '#4b5563', // Gray 600
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Define a custom font family and variables */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght @100;400;700&display=swap');
+
+        :root {
+            --color-black: hsla(0, 0%, 12%, 100%);
+            --color-white: hsla(0, 0%, 100%, 100%);
+            /* The perspective value is crucial for the 3D effect. Using 100svh ensures it scales nicely with the viewport height. */
+            --perspective-distance: 100svh;
+        }
+
+        body {
+            background-color: var(--color-white); /* Changed to white */
+            color: var(--color-black); /* Changed to black for contrast */
+            font-family: "Roboto", sans-serif;
+            font-optical-sizing: auto;
+            margin: 0;
+            /* Hide the default horizontal scrollbar that can sometimes appear with 3D transforms */
+            overflow-x: hidden;
+        }
+
+        /* --- Scroll Smoother Root Container --- */
+        #smooth-wrapper {
+            /* This is required by ScrollSmoother */
+            width: 100%;
+        }
+        #smooth-content {
+            /* This is required by ScrollSmoother */
+        }
+
+        /* Utility function emulation in plain CSS */
+        .rem-100 { margin-top: 6.25rem; margin-bottom: 6.25rem; } /* 100px / 16 = 6.25rem */
+
+        .heading {
+            /* Responsive font size and line height using clamp() */
+            font-size: clamp(3.125rem, 3.464vw + 2.229rem, 5rem);
+            line-height: clamp(4.688rem, 3.349vw + 3.821rem, 6.5rem);
+            text-align: center;
+            
+            /* Initial state before scroll (hidden deep in 3D space) */
+            opacity: 0.1;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            /* The initial Z translation pushes the element far away, simulating depth */
+            transform: translate3d(-50%, -50%, -2000px);
+            white-space: nowrap;
+            /* Ensure the heading is above the images initially */
+            z-index: 5;
+            color: var(--color-black); /* Ensure heading text is black */
+        }
+
+        .zoom-container {
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            /* This is the key CSS property that enables the 3D perspective effect */
+            perspective: var(--perspective-distance);
+            width: 100vw;
+        }
+
+        .zoom-item {
+            position: absolute;
+            transform-origin: center center;
+            /* Initial state for all items: slightly transparent and in 3D space, which will be overwritten by GSAP */
+            opacity: 0;
+            /* This prevents the images from getting clipped by the container before the animation starts */
+            z-index: 10;
+        }
+
+        /* Specific opacity and Z-index for the layer groups before GSAP takes over */
+        .zoom-item[data-layer="3"] { opacity: 0.6; z-index: 3; }
+        .zoom-item[data-layer="2"] { opacity: 0.4; z-index: 2; }
+        .zoom-item[data-layer="1"] { opacity: 0.2; z-index: 1; }
+
+        /* Positioning and sizing of individual images using viewport units for responsiveness */
+        .zoom-item:nth-child(2) { left: 15vw; top: 21%; width: 11.5vw; }
+        .zoom-item:nth-child(3) { left: 29%; top: 15%; width: 9.2vw; }
+        .zoom-item:nth-child(4) { left: 36%; top: 3%; width: 11.5vw; }
+        .zoom-item:nth-child(5) { right: 30%; top: 11%; width: 7.6vw; }
+        .zoom-item:nth-child(6) { bottom: auto; right: 7%; top: 28%; width: 13.2vw; }
+        .zoom-item:nth-child(7) { bottom: 32%; right: 3.5%; width: 4.7vw; }
+        .zoom-item:nth-child(8) { bottom: 13.5%; left: 16%; width: 10.5vw; }
+        .zoom-item:nth-child(9) { bottom: 24%; left: 29%; width: 5.9vw; }
+        .zoom-item:nth-child(10) { bottom: 46%; left: 7.5%; top: auto; width: 5.2vw; }
+        .zoom-item:nth-child(11) { bottom: 5.5%; right: 15%; width: 15vw; }
+        .zoom-item:nth-child(12) { bottom: 10.5%; left: auto; right: 38%; width: 8.3vw; }
+        .zoom-item:nth-child(13) { right: 4%; top: 5%; width: 6.1vw; }
+        
+        /* Ensure images inside the zoom items fill their container */
+        .zoom-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem; /* Added rounded corners for aesthetics */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Added subtle shadow */
+        }
+        
+        /* Style for manually split characters */
+        .opacity-reveal span {
+            display: inline-block; /* Crucial for stagger animation */
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        /* Initial Body Setup */
+        body {
+            color: #121212;
+            font-family: "Outfit", sans-serif;
+            background-color: #ffffff; /* Initial background color */
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Container and Spacing */
+        .container {
+            max-width: 1440px;
+            padding: 2rem;
+            margin-inline: auto;
+        }
+
+        .spacer {
+            width: 100%;
+            height: 30vh;
+        }
+
+        /* Main Architecture Section */
+        .arch {
+            display: flex;
+            gap: 60px;
+            justify-content: space-between;
+            max-width: 1100px;
+            margin-inline: auto;
+        }
+
+        /* Left Content Column (Scrollable) */
+        .arch__left {
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+        
+        .arch__left .arch__info {
+            max-width: 356px;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+        }
+
+        .arch__left .arch__info .content {
+            /* Ensures content is centered vertically */
+        }
+
+        .arch__left .arch__info h2.header {
+            font-family: Outfit;
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -0.84px;
+        }
+
+        .arch__left .arch__info p.desc {
+            color: rgba(18, 18, 18, 0.8);
+            font-size: 18px;
+            letter-spacing: -0.54px;
+            margin-block: 6px 28px;
+            line-height: normal;
+        }
+
+        .arch__left .arch__info a.link {
+            text-decoration: none;
+            padding: 16px 18px;
+            color: #121212; /* Explicitly set text color to black */
+            border-radius: 40px;
+            display: flex;
+            gap: 4px;
+            width: fit-content;
+            align-items: center;
+            font-weight: 700;
+            transition: transform 0.2s;
+        }
+
+        .arch__left .arch__info a.link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Right Image Column (Pinned) */
+        .arch__right {
+            flex-shrink: 1;
+            height: 100vh;
+            width: 100%;
+            max-width: 540px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .arch__right .img-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 400px;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .arch__right .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        /* Initial state for clipPath animation (set in JS, but defined here for visual clarity) */
+        .arch__right .img-wrapper:not([data-index="1"]) img {
+            clip-path: inset(0px 0px 100%);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 900px) {
+            .arch {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .arch {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            /* Display contents allows for reordering of children */
+            .arch__left,
+            .arch__right {
+                display: contents;
+            }
+
+            .arch__right {
+                height: auto;
+                max-width: 100%;
+            }
+
+            /* On mobile, images stack naturally (position: static) */
+            .arch__right .img-wrapper {
+                position: static;
+                transform: none;
+                height: 360px;
+                width: 100%;
+                margin-bottom: 20px;
+                clip-path: none !important; /* Disable clipPath on mobile */
+            }
+
+            .arch__right .img-wrapper img {
+                object-position: 0px 60% !important; /* Ensure initial object position on mobile */
+            }
+
+            .arch__left .arch__info {
+                height: auto;
+                padding: 20px 0;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .arch {
+                gap: 12px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .arch__right .img-wrapper {
+                border-radius: 10px;
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+    <!-- Main Container - Padding for edges -->
+    <div class="max-w-7xl mx-auto ">
+
+        <!-- 1. Navigation Bar -->
+        <header class="sticky top-0 z-50 bg-white flex items-center justify-between h-20 border-b border-gray-100">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center s">
+                <!-- Simple Logo: M + Tree icon/shape -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                    <path d="M12 2L10 6L14 6L12 2Z" fill="#1a1a1a"/>
+                    <path d="M12 8C10 8 9 10 9 12C9 14 10 16 12 16C14 16 15 14 15 12C15 10 14 8 12 8Z" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 16V22" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xl font-bold">social</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex space-x-8 items-center text-sm font-medium">
+                <a href="#" class="text-gray-700 hover:text-green-600 transition duration-150">Product</a>
+                <a href="#" class="text-gray-700 hover:text-green-600 transition duration-150">Why us</a>
+                <a href="aboutus.html" class="text-green-600 hover:text-green-600 transition duration-150">About us</a>
+                <a href="#" class="text-gray-700 hover:text-green-600 transition duration-150">Cases</a>
+                <a href="#" class="text-gray-700 hover:text-green-600 transition duration-150">Blog</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hidden sm:inline-block border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition duration-150">
+                    Book a demo
+                </a>
+                <!-- Language Dropdown -->
+                <div class="relative">
+                    <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 transition duration-150">
+                        <span id="language-button-text">English</span>
+                        <svg id="language-arrow" class="w-4 h-4 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="language-menu" class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-1 hidden z-10">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Spanish</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">French</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">German</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Hindi</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+    </div>
+
+    <main>
+        <div class="zoom-container">
+            <h1 class="heading">
+                Strategic Insights,<br />
+                Tangible Results
+            </h1>
+            <!-- Image elements with different data-layer values for varying zoom speeds/depths --><div class="zoom-item" data-layer="2">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fHww" alt="Diverse group of friends">
+            </div>
+            <div class="zoom-item" data-layer="2">
+                <img src="https://media.istockphoto.com/id/1288555646/photo/young-handsome-asian-man-getting-the-new-car-he-hugged-his-car-and-was-very-happy-buy-or-rent.webp?a=1&b=1&s=612x612&w=0&k=20&c=JYx43WTyn1RCMtkd9kJvqAKja8UMQytmxNR_QETYaXk=" alt="Man celebrating a new car" />
+            </div>
+            <div class="zoom-item" data-layer="1">
+                <img src="https://plus.unsplash.com/premium_photo-1756065690656-57dc0bb00f04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWFuJTIwYW5kJTIwaG91c2V8ZW58MHx8MHx8fDA%3D" alt="Man standing in front of a modern house" />
+            </div>
+            <div class="zoom-item" data-layer="2">
+                <img src="https://images.unsplash.com/photo-1727892349213-420825134c12?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFuJTIwYW5kJTIwaG91c2V8ZW58MHx8MHx8fDA%3D" alt="Couple relaxing in a modern home" />
+            </div>
+            <div class="zoom-item" data-layer="3">
+                <img src="https://images.unsplash.com/photo-1543269664-56d93c1b41a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2FyZWVyfGVufDB8fDB8fHww" alt="Business professional in a career setting" />
+            </div>
+            <div class="zoom-item" data-layer="1">
+                <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZG9jdG9yfGVufDB8fDB8fHww" alt="A doctor talking to a patient" />
+            </div>
+            <div class="zoom-item" data-layer="3">
+                <img src="https://images.unsplash.com/photo-1660798027105-5da8ad164e27?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHN0dWRlbnR8ZW58MHx8MHx8fDA%3D" alt="Students working together" />
+            </div>
+            <div class="zoom-item" data-layer="3">
+                <img src="https://images.unsplash.com/flagged/photo-1571367034861-e6729ad9c2d5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aW5kaWFufGVufDB8fDB8fHww" alt="Traditional Indian festival/portrait" />
+            </div>
+            <div class="zoom-item" data-layer="1">
+                <img src="https://images.unsplash.com/photo-1622782262245-bfb660f4ff93?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGluZGlhbnxlbnwwfHwwfHx8MA%3D%3D" alt="People celebrating a cultural event" />
+            </div>
+            <div class="zoom-item" data-layer="3">
+                <img src="https://plus.unsplash.com/premium_photo-1682092660676-c68b30dce510?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fGluZGlhbnxlbnwwfHwwfHx8MA%3D%3D" alt="Portrait of an Indian woman" />
+            </div>
+            <div class="zoom-item" data-layer="2">
+                <img src="https://plus.unsplash.com/premium_photo-1661932816149-291a447e3022?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MXx8ZmFjdG9yeSUyMHdvcmtlcnxlbnwwfHwwfHx8MA%3D%3D" alt="Factory worker using machinery" />
+            </div>
+            <div class="zoom-item" data-layer="1">
+                <img src="https://images.unsplash.com/photo-1761839257475-4ca368dae6c3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8" alt="Person walking through a crowd" />
+            </div>
+        </div>
+
+        <!-- Second section with the text reveal effect --><section class="section-stick min-h-screen bg-white flex justify-center items-center text-black p-8">
+            <p class="opacity-reveal text-4xl sm:text-5xl md:text-7xl font-bold text-center w-full md:w-3/5">
+                Empowering businesses with innovative solutions and expert guidance for a future of growth.
+            </p>
+        </section>
+        
+       
+<div class="container">
+    <div class="spacer"></div>
+
+    <div class="arch">
+        <!-- LEFT COLUMN: Text Content -->
+        <div class="arch__left">
+            <!-- Arch 1: OUR STORY -->
+            <div class="arch__info" id="green-arch">
+                <div class="content">
+                    <h2 class="header">OUR STORY</h2>
+                    <p class="desc">Founded on the principle of partnership, our journey began with a commitment to challenging the status quo and redefining what is possible through strategic collaboration and expert insight.</p>
+                    <a class="link" href="#" style="background-color: #D5FF37">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none">
+                            <path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" />
+                        </svg> <span>Learn More</span></a>
+                </div>
+            </div>
+
+            <!-- Arch 2: OUR MISSION -->
+            <div class="arch__info" id="blue-arch">
+                <div class="content">
+                    <h2 class="header">OUR MISSION</h2>
+                    <p class="desc">To empower our clients globally by delivering measurable, sustainable growth and building resilient organizational structures that thrive in an ever-evolving digital landscape.</p>
+                    <a class="link" href="#" style="background-color: #7DD6FF">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none">
+                            <path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" />
+                        </svg> <span>Learn More</span></a>
+                </div>
+            </div>
+
+            <!-- Arch 3: Innovative Solutions (Kept Same) -->
+            <div class="arch__info" id="pink-arch">
+                <div class="content">
+                    <h2 class="header">Innovative Solutions</h2>
+                    <p class="desc">We craft custom, resilient strategies and architectures that are designed not just for today's needs, but for future market demands.</p>
+                    <a class="link" href="#" style="background-color: #FFA0B0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none">
+                            <path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" />
+                        </svg> <span>Learn More</span></a>
+                </div>
+            </div>
+
+            <!-- Arch 4: Comprehensive Overview (Kept Same) -->
+            <div class="arch__info" id="orange-arch">
+                <div class="content">
+                    <h2 class="header">Comprehensive Overview</h2>
+                    <p class="desc">An end-to-end view of our firm's capabilities, culture, and commitment to delivering measurable, long-term success for every partnership.</p>
+                    <a class="link" href="#" style="background-color: #FFA17B">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none">
+                            <path fill="#121212" d="M5 2c0 1.105-1.895 2-3 2a2 2 0 1 1 0-4c1.105 0 3 .895 3 2ZM11 3.5c0 1.105-.895 3-2 3s-2-1.895-2-3a2 2 0 1 1 4 0ZM6 9a2 2 0 1 1-4 0c0-1.105.895-3 2-3s2 1.895 2 3Z" />
+                        </svg> <span>Learn More</span></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Pinned Images -->
+        <div class="arch__right">
+            <!-- data-index="4" (Maps to OUR STORY) - User's Image 1 -->
+            <div class="img-wrapper" data-index="4">
+                <img src="https://images.unsplash.com/photo-1583737226513-515e5a9f24f7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8b2xkJTIwY29tcGFnySUyMGVtcGxveWVzfGVufDB8fDB8fHww" alt="Legacy team members collaboration">
+            </div>
+
+            <!-- data-index="3" (Maps to OUR MISSION) - User's Image 2 -->
+            <div class="img-wrapper" data-index="3">
+                <img src="https://plus.unsplash.com/premium_photo-1661756423422-4486e27eb6dd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFuYWdlbWVudCUyMHRlYW18ZW58MHx8MHx8fDA%3D" alt="Executive management team meeting">
+            </div>
+
+            <!-- data-index="2" (Maps to Innovative Solutions) - User's Image 3 (KEPT) -->
+            <div class="img-wrapper" data-index="2">
+                <img src="https://ik.imagekit.io/kg2nszxjp/GSAP%20pinned%20image%20mask%20reveal%20on%20scroll/aw6qwur0pggp5r03whjq.webp" alt="Abstract fluid architecture design">
+            </div>
+
+            <!-- data-index="1" (Maps to Comprehensive Overview) - User's Image 4 -->
+            <div class="img-wrapper" data-index="1">
+                <img src="https://plus.unsplash.com/premium_photo-1682088399036-8c08ecf5c6b1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Q29tcGFueSUyME92ZXJ2aWV3fGVufDB8fDB8fHww" alt="Company office wide overview shot">
+            </div>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+</div>
+    </main>
+
+    <footer class="bg-white text-black">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1">
+                    <a href="#" class="flex items-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                            <path d="M12 2L10 6L14 6L12 2Z" fill="black"/>
+                            <path d="M12 8C10 8 9 10 9 12C9 14 10 16 12 16C14 16 15 14 15 12C15 10 14 8 12 8Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16V22" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-xl font-bold ml-2">social</span>
+                    </a>
+                    <p class="mt-4 text-gray-500 text-sm">
+                        Put people first. Fast, user-friendly and engaging.
+                    </p>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Product</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Features</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Pricing</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Book a demo</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Company</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="aboutus.html" class="text-base text-gray-600 hover:text-black">About us</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Blog</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Follow us</h3>
+                    <div class="flex space-x-6 mt-4">
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-7 6.477v2.04h-1.55v-2.04H8.023v5.58h2.433v-2.99c0-.78.54-1.33 1.25-1.33.71 0 1.25.55 1.25 1.33v2.99h2.433v-5.58H12zM6.5 8.25a1.75 1.75 0 11-3.5 0 1.75 1.75 0 013.5 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
+                <p class="text-base text-gray-400">&copy; 2025 social. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    </div>
+    </div>
+    
+    <script>
+        // --- MANUAL TEXT SPLIT FUNCTION ---
+        /**
+         * Manually splits the text content of an element into character spans.
+         * @param {string} selector - The CSS selector for the element to split.
+         * @returns {HTMLElement[] | null} An array of the new character spans, or null if the element isn't found.
+         */
+        function manualSplitText(selector) {
+            const element = document.querySelector(selector);
+            if (!element) return null;
+
+            const text = element.textContent;
+            let newHTML = '';
+            
+            // Iterate over each character and wrap it in a span
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                if (char === ' ') {
+                    // Use a span containing a non-breaking space for spaces
+                    newHTML += '<span>&nbsp;</span>'; 
+                } else {
+                    // Wrap the character
+                    newHTML += `<span class="split-char">${char}</span>`;
+                }
+            }
+            
+            // Replace the original text with the wrapped characters
+            element.innerHTML = newHTML;
+            
+            // Return the array of new character spans for GSAP targeting
+            return Array.from(element.querySelectorAll('.split-char, span'));
+        }
+
+        // --- GSAP INITIALIZATION ---
+        
+        // 0. Register GSAP plugins conditionally (excluding SplitText)
+        const plugins = [];
+        if (typeof ScrollTrigger !== 'undefined') plugins.push(ScrollTrigger);
+        if (typeof ScrollSmoother !== 'undefined') plugins.push(ScrollSmoother);
+
+        if (plugins.length > 0) {
+            gsap.registerPlugin(...plugins);
+        }
+
+        // 1. Initialize ScrollSmoother for a luxurious scroll feeling
+        if (typeof ScrollSmoother !== 'undefined') {
+            ScrollSmoother.create({
+                smooth: 1.2,
+                effects: true,
+                normalizeScroll: true,
+                wrapper: '#smooth-wrapper',
+                content: '#smooth-content',
+            });
+        }
+
+        // 2. Timeline for the Perspective Zoom Effect
+        if (typeof ScrollTrigger !== 'undefined') {
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".zoom-container",
+                    start: "top top",
+                    end: "bottom top", 
+                    pin: true,
+                    scrub: 1
+                }
+            })
+            .to(
+                ".zoom-item[data-layer='3']",
+                {
+                    opacity: 1,
+                    z: 800,
+                    ease: "power1.out"
+                },
+                0
+            )
+            .to(
+                ".zoom-item[data-layer='2']",
+                {
+                    opacity: 1,
+                    z: 600,
+                    ease: "power1.out"
+                },
+                0
+            )
+            .to(
+                ".zoom-item[data-layer='1']",
+                {
+                    opacity: 1,
+                    z: 400,
+                    ease: "power1.out"
+                },
+                0
+            )
+            .to(
+                ".heading",
+                {
+                    opacity: 1,
+                    z: 50,
+                    ease: "power1.inOut"
+                },
+                0
+            );
+        }
+
+        // 3. Manual Text Split and Reveal Effect
+        const splitChars = manualSplitText(".opacity-reveal");
+
+        if (splitChars && typeof ScrollTrigger !== 'undefined') {
+            // Set the initial state of the characters to low opacity
+            gsap.set(splitChars, { opacity: "0.2" });
+
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".section-stick",
+                    pin: true,
+                    start: "center center",
+                    end: "+=1500",
+                    scrub: 1
+                }
+            })
+            // Reveal the text character by character
+            .to(splitChars, {
+                opacity: "1",
+                color: "#059669",
+                duration: 1,
+                ease: "none",
+                stagger: 0.05, // Adjusted stagger timing
+            })
+            // Hold the revealed text visible for a scroll duration
+            .to({}, { duration: 10 })
+            // Fade out and slightly scale the revealed text towards the end of the scroll trigger
+            .to(".opacity-reveal", {
+            opacity: "0",
+            scale: 1.2,
+            duration: 5,
+        });
+    }
+
+    // Set z-index for images (Data-index 4 is highest, 1 is lowest)
+    document.querySelectorAll(".arch__right .img-wrapper").forEach((element) => {
+        const order = element.getAttribute("data-index");
+        if (order !== null) {
+            element.style.zIndex = order;
+        }
+    });
+
+    // Mobile layout handler: Interleave text and images on small screens
+    function handleMobileLayout() {
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        const leftItems = gsap.utils.toArray(".arch__left .arch__info");
+        const rightItems = gsap.utils.toArray(".arch__right .img-wrapper");
+
+        if (isMobile) {
+            // Interleave items using CSS order property: [Text 1, Image 1, Text 2, Image 2, ...]
+            leftItems.forEach((item, i) => {
+                item.style.order = i * 2;
+            });
+            rightItems.forEach((item, i) => {
+                item.style.order = i * 2 + 1;
+            });
+        } else {
+            // Clear order for desktop to maintain flex-box layout
+            leftItems.forEach((item) => {
+                item.style.order = "";
+            });
+            rightItems.forEach((item) => {
+                item.style.order = "";
+            });
+        }
+    }
+
+    // Debounce resize for performance
+    let resizeTimeout;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(handleMobileLayout, 100);
+    });
+
+    // Run on initial load
+    handleMobileLayout();
+
+    const imgs = gsap.utils.toArray(".img-wrapper img");
+    // Background colors for the body corresponding to each section (starts with #f9ffe7 - green theme)
+    // Transition colors: Section 1->2, 2->3, 3->4
+    // Changed the last color (index 2) to pure white (#FFFFFF) for the 4th section.
+    const bgColors = ["#EDF9FF", "#FFECF2", "#FFFFFF"];
+
+    // GSAP Animation with Media Query matching
+    ScrollTrigger.matchMedia({
+        // DESKTOP animation (Pinning + ClipPath/ObjectPosition)
+        "(min-width: 769px)": function () {
+            // Main timeline for the entire scroll section
+            const mainTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".arch",
+                    start: "top top",
+                    end: "bottom bottom",
+                    pin: ".arch__right", // Pin the image container
+                    scrub: true
+                }
+            });
+
+            // Set initial state for all images: visible (clipPath: inset(0))
+            gsap.set(imgs, {
+                clipPath: "inset(0)",
+                objectPosition: "0px 0%"
+            });
+
+            // Loop through the text sections to define transitions
+            gsap.utils.toArray(".arch__left .arch__info").forEach((section, index) => {
+                const currentImage = imgs[index];
+                const nextImage = imgs[index + 1]; // Next image to reveal/unmask
+                const currentSectionTimeline = gsap.timeline();
+
+                if (nextImage) {
+                    currentSectionTimeline
+                        // 1. Change body background color smoothly
+                        .to(
+                            "body",
+                            {
+                                backgroundColor: bgColors[index],
+                                duration: 1.5,
+                                ease: "power2.inOut"
+                            },
+                            0
+                        )
+                        // 2. Hide the current image by clipping it from bottom up
+                        .to(
+                            currentImage,
+                            {
+                                clipPath: "inset(0px 0px 100%)",
+                                objectPosition: "0px 60%", // Subtle image movement during transition
+                                duration: 1.5,
+                                ease: "none"
+                            },
+                            0
+                        )
+                        // 3. Move the next image's object position slightly for effect
+                        .to(
+                            nextImage,
+                            {
+                                objectPosition: "0px 40%",
+                                duration: 1.5,
+                                ease: "none"
+                            },
+                            0
+                        );
+                }
+
+                // Add a space at the end of the timeline section
+                currentSectionTimeline.to({}, { duration: 0.5 });
+                
+                mainTimeline.add(currentSectionTimeline);
+            });
+        },
+
+        // MOBILE animation (No Pinning, simple background/image scroll effect)
+        "(max-width: 768px)": function () {
+            // Reset clipPath for mobile, handled by CSS media query, but ensure GSAP doesn't override it.
+            gsap.set(imgs, {
+                clipPath: "none",
+                objectPosition: "0px 60%"
+            });
+            
+            // Timeline for smooth color transitions on mobile
+            gsap.utils.toArray(".arch__left .arch__info").forEach((infoSection, index) => {
+                const image = imgs[index];
+                const colorIndex = index;
+
+                if (image) {
+                    gsap.timeline({
+                        scrollTrigger: {
+                            trigger: image, // Trigger animation based on the image entering the viewport
+                            start: "top center",
+                            end: "bottom center",
+                            scrub: true
+                        }
+                    })
+                    .to(image, {
+                        objectPosition: "0px 30%", // Slight movement while scrolling past
+                        duration: 5,
+                        ease: "none"
+                    });
+                }
+
+                if (colorIndex < bgColors.length) {
+                     gsap.to("body", {
+                        backgroundColor: bgColors[colorIndex],
+                        duration: 0.5,
+                        ease: "power2.inOut",
+                        scrollTrigger: {
+                            trigger: infoSection,
+                            start: "top center",
+                            end: "center center",
+                            toggleActions: "play reverse play reverse"
+                        }
+                    });
+                }
+            });
+        }
+    });
+</script>
+
+    </script>
+</body>
+</html>
