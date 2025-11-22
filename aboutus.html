@@ -317,6 +317,186 @@
             }
         }
     </style>
+    <link href="https://fonts.bunny.net/css?family=jura:300,500" rel="stylesheet">
+    <style>
+    /* CSS Variables & Base Styles */
+    .carousel-section-wrapper {
+        background-color: #FFF;
+        color: rgb(10, 10, 10);
+        padding: 2rem;
+        font-family: "Jura", sans-serif;
+        font-size: 1rem;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        width: 100%;
+    }
+
+    .carousel-section-wrapper h1 {
+        margin: 0;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    
+    :root {
+        --nav-btn-size: 40px;
+        --nav-btn-bg: rgb(15, 23, 43);
+        --nav-btn-txt: white;
+        --nav-marker-bg: rgb(15, 23, 43);
+        --snap-distance: 250px; /* Matches item width */
+    }
+
+    /* Message for Unsupported Features */
+    .msg-supports {
+        font-size: 0.8rem;
+        color: #d33;
+    }
+
+    /* --- CAROUSEL CONTAINER --- */
+    .carousel {
+        width: min(calc(100% - 2rem), 700px);
+        list-style: none;
+        padding-block: 2rem;
+        display: flex; /* Use flex to lay out items horizontally */
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none; /* Hide scrollbar in Firefox */
+        margin-top: 2rem;
+        position: relative;
+        
+        /* Hide scrollbar in Chrome/Safari */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+    .carousel::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* Empty elements to center first and last items (using padding) */
+    .carousel::before,
+    .carousel::after {
+        content: '';
+        flex-shrink: 0;
+        width: calc(50% - (var(--snap-distance) / 2));
+    }
+
+    /* --- CAROUSEL ITEM --- */
+    .carousel > div {
+        flex-shrink: 0;
+        width: var(--snap-distance);
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        
+        display: grid;
+        grid-template-areas: 'img' 'title' 'desc';
+        text-align: center;
+        padding: 0 1rem;
+        transition: all 300ms ease-in-out;
+        
+        /* Initial state for text/image scaling when not active */
+        --scale-factor: 0.5;
+        --opacity-factor: 0.5;
+    }
+
+    /* Active state for snapped item (Set by JavaScript) */
+    .carousel > div.is-active {
+        --scale-factor: 1;
+        --opacity-factor: 1;
+    }
+
+    /* Item Title/Name */
+    .carousel > div h2 {
+        grid-area: title;
+        margin: 1rem 0 0 0;
+        font-size: 1.3rem;
+        white-space: nowrap;
+        transition: all 300ms ease-in-out;
+        scale: var(--scale-factor);
+        opacity: var(--opacity-factor);
+        translate: 0 calc(var(--scale-factor) * -100px);
+    }
+
+    /* Item Description */
+    .carousel > div p {
+        grid-area: desc;
+        margin: 0;
+        white-space: nowrap;
+        transition: all 300ms ease-in-out;
+        scale: var(--scale-factor);
+        opacity: calc(var(--opacity-factor) - 0.5); /* Hide/fade out more aggressively */
+    }
+    .carousel > div.is-active p {
+        opacity: 1;
+    }
+
+
+    /* Image Wrapper */
+    .carousel > div .img {
+        grid-area: img;
+        width: 100%;
+        aspect-ratio: 3/4;
+        transition: all 300ms ease-in-out;
+        transform-origin: center center;
+        scale: var(--scale-factor);
+        opacity: var(--opacity-factor);
+    }
+
+    .carousel > div .img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0 0 0 / .25);
+    }
+
+    /* --- NAVIGATION DOTS (JS Generated) --- */
+    .carousel-nav {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    .carousel-dot {
+        height: 15px;
+        width: 15px;
+        background-color: var(--nav-marker-bg);
+        border-radius: 50%;
+        opacity: 0.25;
+        cursor: pointer;
+        transition: all 150ms ease-in-out;
+        border: 2px solid transparent;
+    }
+    .carousel-dot.is-active {
+        opacity: 1;
+        scale: 1.1;
+    }
+    .carousel-dot:hover {
+        opacity: 0.8;
+    }
+    .carousel-dot:focus-visible {
+        border-color: var(--nav-marker-bg);
+        outline: none;
+    }
+
+    /* --- MEDIA QUERIES (Handling the fluid item width) --- */
+    @media (max-width: 700px) {
+        .carousel {
+            /* On smaller screens, use a percentage of viewport width for item sizing */
+            grid-auto-columns: 80vw;
+            --snap-distance: 80vw;
+        }
+    }
+    
+    @media (max-width: 500px) {
+        .carousel {
+             grid-auto-columns: 90vw;
+             --snap-distance: 90vw;
+        }
+    }
+</style>
 </head>
 <body class="min-h-screen">
 
@@ -505,9 +685,58 @@
 
     <div class="spacer"></div>
 </div>
-    </main>
+    
 
-    <footer class="bg-white text-black">
+  
+<div class="carousel-section-wrapper pt-0">
+    <h1>OUR LEADERSHIP TEAM<code></code></h1>
+    
+    <!-- Carousel Container -->
+    <section class="carousel" id="teamCarousel">
+        <div>
+            <h2>Raymond McKenzie</h2>
+            <p>CEO</p>
+            <div class="img"><img src="https://i.pravatar.cc/400?img=53" alt="Raymond McClenzie"></div>
+        </div>
+        <div>
+            <h2>Elizabeth Turner</h2>
+            <p>Marketing Director</p>
+            <div class="img"><img src="https://i.pravatar.cc/300?img=5" alt="Elizabeth Turner" loading="lazy"></div>
+        </div>
+        <!-- The JS will handle the "scroll-start" behavior by scrolling to this item on load -->
+        <div class="scroll-start">
+            <h2>Suzanne Yorke</h2>
+            <p>Creative Director</p>
+            <div class="img"><img src="https://i.pravatar.cc/300?img=44" alt="Suzanne Yorke" loading="lazy"></div>
+        </div>
+        <div>
+            <h2>Simon Hadley</h2>
+            <p>Social Media & Networking</p>
+            <div class="img"><img src="https://i.pravatar.cc/300?img=12" alt="Simon Hadley" loading="lazy"></div>
+        </div>
+        <div>
+            <h2>Harriet Johnson</h2>
+            <p>Front-End Developer</p>
+            <div class="img"><img src="https://i.pravatar.cc/300?img=27" alt="Harriet Johnson" loading="lazy"></div>
+        </div>
+        <div>
+            <h2>Felipe Rodriguez</h2>
+            <p>Designer</p>
+            <div class="img"><img src="https://i.pravatar.cc/300?img=13" alt="Felipe Rodriguez" loading="lazy"></div>
+        </div>
+        <div>
+            <h2>Jonathon Simmons</h2>
+            <p>Back-End Developer</p>
+            <div class="img"><img src="https://i.pravatar.cc/300?img=15" alt="Jonathon Simmons" loading="lazy"></div>
+        </div>
+        <div>
+            <h2>Sarah-Jane Smith</h2>
+            <p>Back-End Developer</p>
+            <div class="img"><img src="https://i.pravatar.cc/300?img=38" alt="Sarah-Jane Smith" loading="lazy"></div>
+        </div>
+    </section>
+</main>
+    <footer class="bg-white text-black mt-40">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="col-span-1">
@@ -567,7 +796,11 @@
                 <p class="text-base text-gray-400">&copy; 2025 social. All rights reserved.</p>
             </div>
         </div>
-    </footer>
+        </footer>
+    
+    <!-- Navigation Markers (Dots) container -->
+    <div class="carousel-nav" id="carouselNav"></div>
+</div>
 
     </div>
     </div>
@@ -710,6 +943,7 @@
         });
     }
 
+    // --- ARCH SECTION SCRIPT ---
     // Set z-index for images (Data-index 4 is highest, 1 is lowest)
     document.querySelectorAll(".arch__right .img-wrapper").forEach((element) => {
         const order = element.getAttribute("data-index");
@@ -873,8 +1107,131 @@
             });
         }
     });
-</script>
 
+    // --- CAROUSEL SCRIPT ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const carousel = document.getElementById('teamCarousel');
+        if (!carousel) return; // Do not run if the carousel is not on the page
+        const navContainer = document.getElementById('carouselNav');
+        const items = Array.from(carousel.children).filter(child => child.tagName === 'DIV');
+        let itemWidth = 0;
+        let activeIndex = 0;
+
+        // --- 1. Create Navigation Dots ---
+        items.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.classList.add('carousel-dot');
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            dot.dataset.index = index;
+            dot.addEventListener('click', () => {
+                // Calculate the scroll position needed to center the item
+                const scrollPosition = (index * itemWidth) - (carousel.clientWidth / 2) + (itemWidth / 2);
+                carousel.scrollTo({
+                    left: scrollPosition,
+                    behavior: 'smooth'
+                });
+            });
+            navContainer.appendChild(dot);
+        });
+
+        const dots = Array.from(navContainer.children);
+
+        // --- 2. Scroll-to-Start Item (Mimicking scroll-initial-target) ---
+        const startItem = carousel.querySelector('.scroll-start');
+        if (startItem) {
+            const startIndex = items.indexOf(startItem);
+            
+            // Wait for layout to settle before calculating width and scrolling
+            window.addEventListener('load', () => {
+                updateItemWidth();
+                // Scroll to center the initial item
+                const scrollPosition = (startIndex * itemWidth) - (carousel.clientWidth / 2) + (itemWidth / 2);
+                carousel.scrollLeft = scrollPosition;
+                // Run the update function immediately to set initial active state
+                updateActiveItem();
+            });
+        }
+
+        // --- 3. Intersection Observer to Detect Active Item (Simulates @container scroll-state) ---
+        const observerOptions = {
+            root: carousel,
+            rootMargin: '0px',
+            // Threshold close to 1.0 ensures the element is perfectly centered
+            // We use a custom threshold slightly less than 1.0 to ensure the center snap works.
+            threshold: [0.98] 
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const item = entry.target;
+                const index = items.indexOf(item);
+                
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.98) {
+                    // Item is snapped/centered
+                    item.classList.add('is-active');
+                    dots[index].classList.add('is-active');
+                    activeIndex = index;
+                } else {
+                    // Item is not snapped/centered
+                    item.classList.remove('is-active');
+                    dots[index].classList.remove('is-active');
+                }
+            });
+        }, observerOptions);
+
+        items.forEach(item => observer.observe(item));
+
+
+        // --- 4. Helper Function to Get Dynamic Item Width ---
+        function updateItemWidth() {
+            // Get the calculated width of the first item (should be the same for all)
+            if (items.length > 0) {
+                // Use getBoundingClientRect().width or offsetWidth
+                itemWidth = items[0].offsetWidth; 
+                // Fallback using computed style if needed, but offsetWidth is usually sufficient
+                if (itemWidth === 0) {
+                    itemWidth = parseFloat(window.getComputedStyle(items[0]).width);
+                }
+                // Update CSS variable for scroll calculation
+                document.documentElement.style.setProperty('--snap-distance', `${itemWidth}px`);
+            }
+        }
+        
+        // Initial calculation and listener for responsiveness
+        updateItemWidth();
+        window.addEventListener('resize', updateItemWidth);
+
+        // --- 5. Manual Fallback Scroll Listener (for faster active state update during interaction) ---
+        // This is less reliable than the IntersectionObserver for centering, 
+        // but provides immediate feedback during scroll gestures.
+        function updateActiveItem() {
+             if (itemWidth === 0) return;
+             // Calculate the index of the item closest to the center
+             const scrollCenter = carousel.scrollLeft + (carousel.clientWidth / 2);
+             let closestIndex = Math.round(scrollCenter / itemWidth) - 1;
+
+             // Clamp index between 0 and last item index
+             closestIndex = Math.max(0, Math.min(items.length - 1, closestIndex));
+             
+             if (closestIndex !== activeIndex) {
+                // Manually trigger the active state update if IO hasn't caught up
+                items.forEach((item, i) => {
+                    item.classList.toggle('is-active', i === closestIndex);
+                    dots[i].classList.toggle('is-active', i === closestIndex);
+                });
+                activeIndex = closestIndex;
+             }
+        }
+
+        // Throttle the scroll event for performance
+        let isScrolling;
+        carousel.addEventListener('scroll', () => {
+            window.clearTimeout(isScrolling);
+            isScrolling = setTimeout(updateActiveItem, 66); // 66ms delay = ~15FPS
+        });
+
+        
+    });
     </script>
 </body>
 </html>
