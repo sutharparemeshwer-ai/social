@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>social - Why Us</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load Iconify for vector icons -->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP Core --><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- GSAP ScrollTrigger Plugin --><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- GSAP ScrollSmoother Plugin (for smooth scrolling effect) --><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollSmoother.min.js"></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-green': '#059669', // Emerald 600
+                        'dark-text': '#1f2937', // Gray 800
+                        'light-text': '#4b5563', // Gray 600
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .slider-section-wrapper {
+            padding: 20px;
+            background: #ffffff;
+        }
+        .slider-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 80vh;
+            max-height: 700px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem; /* Large rounded corners for the container */
+            margin: auto;
+        }
+
+        .services-heading { /* Changed from .now-showing */
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: black;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .services-heading::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #9fff6b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #9fff6b;
+        }
+
+        .accordion-slider {
+            display: flex;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            filter: grayscale(1) brightness(0.7); /* Darken and grayscale non-active slides */
+        }
+
+        .slide:hover {
+            filter: grayscale(0) brightness(0.9);
+        }
+
+        .slide.active {
+            flex: 2.5;
+            filter: grayscale(0) brightness(1);
+        }
+
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 80%);
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            color: white;
+            z-index: 2;
+            padding-bottom: 20px; /* Space for the add button */
+            padding-top: 0; /* Initial padding */
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, padding-top 0.4s ease-out;
+        }
+
+        .slide.active .slide-content {
+            bottom: 80px;
+            padding-top: 80px; /* Pushes content down to clear the absolute slide number */
+        }
+
+        /* Slide Number Animation */
+        .slide-number {
+            font-size: 64px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1;
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active .slide-number {
+            bottom: auto;
+            top: 20px;
+            font-size: 48px;
+            left: 30px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Service Category and Name Animations (Renamed from car-brand/car-name) */
+        .service-category {
+            font-size: 16px;
+            font-weight: 600;
+            color: #9fff6b;
+            margin-bottom: 5px;
+            transform: rotate(-90deg);
+            transform-origin: left bottom;
+            position: absolute;
+            bottom: 100px;
+            left: 30px;
+            white-space: nowrap;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active .service-category {
+            transform: rotate(0deg);
+            position: static;
+            transform-origin: unset;
+        }
+
+        .service-name {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0s;
+        }
+
+        .slide.active .service-name {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        .service-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0s;
+        }
+
+        .slide.active .service-subtitle {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.4s;
+        }
+
+        /* Details and Badges Animations (Renamed from car-specs/performance-badges) */
+        .service-details {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0s;
+        }
+
+        .slide.active .service-details {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.5s;
+        }
+
+        .detail-row { /* Renamed from spec-row */
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active .detail-row {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide.active .detail-row:nth-child(1) {
+            transition-delay: 0.6s;
+        }
+        .slide.active .detail-row:nth-child(2) {
+            transition-delay: 0.65s;
+        }
+        .slide.active .detail-row:nth-child(3) {
+            transition-delay: 0.7s;
+        }
+        .slide.active .detail-row:nth-child(4) {
+            transition-delay: 0.75s;
+        }
+
+        .detail-label { /* Renamed from spec-label */
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .detail-value { /* Renamed from spec-value */
+            color: white;
+            font-weight: 600;
+        }
+
+        .pricing-badges { /* Renamed from performance-badges */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0s;
+        }
+
+        .slide.active .pricing-badges {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.8s;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(159, 255, 107, 0.15);
+            border: 1px solid #9fff6b;
+            border-radius: 9999px; /* Pill shape */
+            font-size: 13px;
+            font-weight: 500;
+            color: #9fff6b;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active .badge {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .slide.active .badge:nth-child(1) {
+            transition-delay: 0.85s;
+        }
+        .slide.active .badge:nth-child(2) {
+            transition-delay: 0.9s;
+        }
+        .slide.active .badge:nth-child(3) {
+            transition-delay: 0.95s;
+        }
+
+        .badge-icon {
+            width: 8px;
+            height: 8px;
+            background: #9fff6b;
+            border-radius: 50%;
+        }
+
+        /* Add Button Style */
+        .add-button {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: 2px solid #9fff6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            z-index: 3;
+            box-shadow: 0 0 15px rgba(159, 255, 107, 0.3);
+        }
+
+        .add-button:hover {
+            background: rgba(159, 255, 107, 0.2);
+        }
+
+        .add-button::before,
+        .add-button::after {
+            content: "";
+            position: absolute;
+            background: #9fff6b;
+            transition: all 0.4s ease;
+        }
+
+        .add-button::before {
+            width: 16px;
+            height: 2px;
+        }
+
+        .add-button::after {
+            width: 2px;
+            height: 16px;
+            transform: rotate(0deg);
+        }
+
+        .slide.active .add-button::before {
+            transform: rotate(45deg);
+        }
+
+        .slide.active .add-button::after {
+            transform: rotate(-45deg);
+            height: 18px;
+        }
+
+        /* Navigation Arrows */
+        .navigation-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 4;
+            backdrop-filter: blur(5px);
+            opacity: 0.7;
+        }
+
+        .nav-prev {
+            left: 20px;
+        }
+
+        .nav-next {
+            right: 20px;
+        }
+
+        .navigation-arrows:hover {
+            background: rgba(0, 0, 0, 0.6);
+            opacity: 1;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .slider-container {
+                height: 95vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slider-container {
+                height: 90vh;
+                border-radius: 1rem;
+            }
+
+            .accordion-slider {
+                flex-direction: column;
+            }
+
+            .slide {
+                flex: 1;
+                min-height: 120px;
+            }
+
+            .slide.active {
+                flex: 2; /* Takes up more space when active */
+                min-height: 400px;
+            }
+
+            .services-heading { /* Changed from .now-showing */
+                top: 15px;
+                left: 15px;
+                font-size: 14px;
+            }
+
+            .slide.active .slide-number {
+                top: 15px;
+                left: 15px;
+                font-size: 32px;
+            }
+
+            .slide.active .slide-content {
+                bottom: 40px;
+                left: 20px;
+                right: 20px;
+                padding-top: 55px;
+            }
+
+            .service-category { /* Changed from car-brand */
+                transform: none;
+                position: static;
+                font-size: 14px;
+            }
+
+            .slide-number {
+                font-size: 32px;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .service-name { /* Changed from car-name */
+                font-size: 24px;
+            }
+
+            .service-subtitle { /* Changed from car-subtitle */
+                font-size: 14px;
+            }
+
+            .add-button {
+                width: 40px;
+                height: 40px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .add-button::before { width: 14px; }
+            .add-button::after { height: 14px; }
+
+            .navigation-arrows {
+                display: none; /* Hide arrows on small screens, rely on swipe/click */
+            }
+        }
+    </style>
+    <!-- Load Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css" />
+    <style>
+        :root {
+            --primary-color: #1C69D4; /* Used for the loader progress */
+        }
+
+        /* REDUCED SIZE: width was 3.4rem, now 2.8rem (34px -> 28px) */
+        .percentage {
+            --colorf3: var(--primary-color);
+            --color13: var(--primary-color);
+            width: 2.8rem; /* Adjusted size */
+            aspect-ratio: 1;
+            /* Create a donut shape mask */
+            mask: radial-gradient(transparent 50%, black 55% 100%); /* Adjusted mask for smaller size */
+            -webkit-mask: radial-gradient(transparent 50%, black 55% 100%); /* Adjusted mask for smaller size */
+            transition: opacity 0.6s ease;
+            opacity: 0;
+            /* Conic gradient for progress bar: transparent (progress) / grey (rest) */
+            background: conic-gradient(
+                    transparent 0,
+                    transparent var(--p),
+                    #c9d6d7 0
+                ),
+                /* Inner ring color (full circle) */
+                conic-gradient(
+                    var(--colorf3),
+                    var(--color13),
+                    var(--color13),
+                    var(--color13),
+                    var(--colorf3)
+                ),
+                /* Small transparent gap to ensure white background shows */
+                conic-gradient(transparent, transparent 10%);
+
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .percentage.show {
+            opacity: 1;
+        }
+
+        /* Reduced number font size slightly */
+        .percentage .number {
+            width: 80%;
+            aspect-ratio: 1;
+            display: inherit;
+            align-items: inherit;
+            justify-content: inherit;
+            background: white;
+            border-radius: inherit;
+            font-size: 12px; /* Adjusted size */
+            font-weight: 700;
+            color: var(--color13);
+        }
+
+        /* Swiper Pagination adjustments */
+        .swiper-pagination {
+            position: absolute;
+            bottom: 2.5rem !important; /* Overriding default swiper bottom (approx. 10 units) */
+            left: 2rem !important;
+            right: 2rem !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0 !important;
+        }
+
+        .swiper-pagination-bullet {
+            width: auto !important;
+            height: auto !important;
+            background: transparent !important;
+            opacity: 1 !important;
+            margin: 0 !important; /* Remove default margins */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Main Container - Padding for edges -->
+    <div class="max-w-7xl mx-auto ">
+
+        <!-- 1. Navigation Bar -->
+        <header class="sticky top-0 z-50 bg-white flex items-center justify-between h-20 border-b border-gray-100">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center s">
+                <!-- Simple Logo: M + Tree icon/shape -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                    <path d="M12 2L10 6L14 6L12 2Z" fill="#1a1a1a"/>
+                    <path d="M12 8C10 8 9 10 9 12C9 14 10 16 12 16C14 16 15 14 15 12C15 10 14 8 12 8Z" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 16V22" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xl font-bold">social</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex space-x-8 items-center text-sm font-medium">
+                <a href="whyus.html" class="text-green-600 hover:text-green-600 transition duration-150">Why us</a>
+                <a href="aboutus.html" class="text-gray-700 hover:text-green-600 transition duration-150">About us</a>
+                <a href="cases.html" class="text-gray-700 hover:text-green-600 transition duration-150">Cases</a>
+                <a href="blog.html" class="text-gray-700 hover:text-green-600 transition duration-150">Blog</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hidden sm:inline-block border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition duration-150">
+                    Book a demo
+                </a>
+                <!-- Language Dropdown -->
+                <div class="relative">
+                    <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 transition duration-150">
+                        <span id="language-button-text">English</span>
+                        <svg id="language-arrow" class="w-4 h-4 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="language-menu" class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-1 hidden z-10">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Spanish</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">French</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">German</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Hindi</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+    </div>
+
+    <main class="py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+            
+            <!-- Left Column: Content -->
+            <div class="lg:col-span-6">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
+                    Engineered for <span class="text-green-600">Growth</span>, Built for <span class="text-green-600">People</span>.
+                </h1>
+                <p class="mt-4 text-lg text-gray-600">
+                    We're not just another vendor; we're your strategic partner. We combine deep industry expertise with a client-centric approach to deliver solutions that are not only powerful but also intuitive and a joy to use.
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <a href="#" class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-8 rounded-lg transition duration-150 shadow-md">
+                        Book a Demo
+                    </a>
+                    <a href="aboutus.html" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-3 px-8 rounded-lg transition duration-150">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column: Image -->
+            <div class="mt-12 lg:mt-0 lg:col-span-6">
+                <img class="w-full rounded-lg" src="herowhyus.png" alt="A visual representation of social's interconnected services and client collaboration.">
+            </div>
+
+        </div>
+    </div>
+</main>
+<section class="slider-section-wrapper mt-32">
+    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Explore Our Core Services</h2>
+    <div class="slider-container">
+        <div class="services-heading">Our Services</div>
+
+        <div class="accordion-slider">
+            <!-- SLIDE 01: Digital Strategy -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1593539956691-88f615392657?fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+                <div class="slide-content">
+                    <div class="slide-number">01</div>
+                    <div class="service-category">Strategy & Planning</div>
+                    <div class="service-name">Digital Transformation Roadmap</div>
+                    <div class="service-subtitle">Aligning technology with core business goals.</div>
+                    <div class="service-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Deliverable:</span>
+                            <span class="detail-value">3-Year Implementation Plan</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Focus:</span>
+                            <span class="detail-value">Market & Technology Audit</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Duration:</span>
+                            <span class="detail-value">6-8 Weeks</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Goal:</span>
+                            <span class="detail-value">ROI Improvement</span>
+                        </div>
+                    </div>
+                    <div class="pricing-badges">
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Tier: Enterprise</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Est. Price: $15k - $50k</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Team Size: 3 Experts</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-button"></div>
+            </div>
+
+            <!-- SLIDE 02: Cloud Solutions -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1549692520-25e24c436b76?fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+                <div class="slide-content">
+                    <div class="slide-number">02</div>
+                    <div class="service-category">Technology Implementation</div>
+                    <div class="service-name">Hybrid Cloud Migration</div>
+                    <div class="service-subtitle">Secure, scalable, and optimized cloud environments.</div>
+                    <div class="service-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Deliverable:</span>
+                            <span class="detail-value">Migration Strategy & Execution</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Focus:</span>
+                            <span class="detail-value">AWS/Azure/GCP</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Duration:</span>
+                            <span class="detail-value">4-12 Months</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Goal:</span>
+                            <span class="detail-value">Operational Efficiency</span>
+                        </div>
+                    </div>
+                    <div class="pricing-badges">
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Tier: Custom</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Price: Custom Quote</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Team Size: 5 Specialists</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-button"></div>
+            </div>
+
+            <!-- SLIDE 03: Data Analytics -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1628795995573-0498b598d904?fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+                <div class="slide-content">
+                    <div class="slide-number">03</div>
+                    <div class="service-category">Business Intelligence</div>
+                    <div class="service-name">Predictive Analytics Framework</div>
+                    <div class="service-subtitle">Turning raw data into actionable insights for growth.</div>
+                    <div class="service-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Deliverable:</span>
+                            <span class="detail-value">Interactive Dashboard Setup</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Focus:</span>
+                            <span class="detail-value">Custom ML Model Creation</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Duration:</span>
+                            <span class="detail-value">3 Months</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Goal:</span>
+                            <span class="detail-value">Sales Forecasting</span>
+                        </div>
+                    </div>
+                    <div class="pricing-badges">
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Tier: Standard</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Price: $25,000 Starting</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Team Size: 4 Analysts</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-button"></div>
+            </div>
+
+            <!-- SLIDE 04: Cybersecurity -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1598466870701-a185b3068e82?fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+                <div class="slide-content">
+                    <div class="slide-number">04</div>
+                    <div class="service-category">Risk & Compliance</div>
+                    <div class="service-name">Enterprise Security Audit</div>
+                    <div class="service-subtitle">Comprehensive defense against modern digital threats.</div>
+                    <div class="service-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Deliverable:</span>
+                            <span class="detail-value">Vulnerability Scan & Remediation Plan</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Focus:</span>
+                            <span class="detail-value">GDPR/HIPAA/ISO Compliance</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Duration:</span>
+                            <span class="detail-value">2-3 Weeks</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Goal:</span>
+                            <span class="detail-value">Risk Reduction</span>
+                        </div>
+                    </div>
+                    <div class="pricing-badges">
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Tier: Audit</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Price: $10,000 Flat Fee</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon"></div>
+                            <span>Team Size: 2 Auditors</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-button"></div>
+            </div>
+        </div>
+
+        <button class="navigation-arrows nav-prev">‹</button>
+        <button class="navigation-arrows nav-next">›</button>
+    </div>
+</section>
+
+<section class="bg-white p-4 sm:p-10 mt-20 mb-20">
+<div class="max-w-6xl mx-auto rounded-xl overflow-hidden">
+    <!-- Heading -->
+    <h1 class="text-3xl font-semibold text-gray-800 p-6 md:p-8 bg-white border-b">
+        Strategic Insights from Nexus Consulting
+    </h1>
+
+    <!-- Increased height from h-[60vh] to h-[70vh] and min-height from 400px to 500px -->
+    <div class="wrapper-slider w-full h-[70vh] min-h-[500px] relative bg-black text-white">
+        <div class="swiper main-slider w-full h-full">
+            <div class="swiper-wrapper">
+
+                <!-- Slide 1: Video 1 (New URL: 3195444) -->
+                <div class="swiper-slide">
+                    <div class="item relative w-full h-full">
+                        <!-- Media Container -->
+                        <div class="video absolute inset-0">
+                            <!-- Video depicting strategy/finance -->
+                            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+                                <source src="https://www.pexels.com/download/video/3195444/" type="video/mp4">
+                                Your browser does not support video playback.
+                            </video>
+                            <!-- Overlay -->
+                            <div class="absolute inset-0 bg-black/50 z-10 rounded-lg"></div>
+                        </div>
+
+                        <!-- Text Content -->
+                        <!-- Increased bottom padding (pb-16 and md:pb-24) to push the button higher -->
+                        <div class="parent-text absolute bottom-0 left-0 right-0 z-20 px-8 pt-8 pb-16 md:px-16 md:pt-16 md:pb-24">
+                            <div class="info-text flex flex-col gap-2">
+                                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight uppercase">Charting Your Path to Market Leadership.</h2>
+                                <p class="text-lg sm:text-xl md:text-2xl font-light">We craft innovative strategies that anticipate market shifts and deliver sustainable competitive advantage.</p>
+                                <a href="#" class="mt-8 px-6 py-3 w-44 h-14 bg-white text-[#262626] text-sm font-medium rounded-lg shadow-xl hover:bg-gray-200 transition-colors flex items-center justify-center">
+                                    View Our Strategy
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Video 2 (New URL: 2842988) -->
+                <div class="swiper-slide">
+                    <div class="item relative w-full h-full">
+                        <!-- Media Container -->
+                        <div class="video absolute inset-0">
+                            <!-- Video depicting connections/data -->
+                            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+                                <source src="https://www.pexels.com/download/video/2842988/" type="video/mp4">
+                                Your browser does not support video playback.
+                            </video>
+                            <!-- Overlay -->
+                            <div class="absolute inset-0 bg-black/50 z-10 rounded-lg"></div>
+                        </div>
+
+                        <!-- Text Content -->
+                        <div class="parent-text absolute bottom-0 left-0 right-0 z-20 px-8 pt-8 pb-16 md:px-16 md:pt-16 md:pb-24">
+                            <div class="info-text flex flex-col gap-2">
+                                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight uppercase">Optimizing Operations for Peak Efficiency.</h2>
+                                <p class="text-lg sm:text-xl md:text-2xl font-light">Through rigorous analysis, we unlock hidden value and streamline processes across your entire organization.</p>
+                                <a href="#" class="mt-8 px-6 py-3 w-44 h-14 bg-white text-[#262626] text-sm font-medium rounded-lg shadow-xl hover:bg-gray-200 transition-colors flex items-center justify-center">
+                                    Analyze Your Process
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Video 3 (New URL: 3247624) -->
+                <div class="swiper-slide">
+                    <div class="item relative w-full h-full">
+                        <!-- Media Container -->
+                        <div class="video absolute inset-0">
+                            <!-- Video depicting technology/data -->
+                            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+                                <source src="https://www.pexels.com/download/video/3247624/" type="video/mp4">
+                                Your browser does not support video playback.
+                            </video>
+                            <!-- Overlay -->
+                            <div class="absolute inset-0 bg-black/50 z-10 rounded-lg"></div>
+                        </div>
+
+                        <!-- Text Content -->
+                        <div class="parent-text absolute bottom-0 left-0 right-0 z-20 px-8 pt-8 pb-16 md:px-16 md:pt-16 md:pb-24">
+                            <div class="info-text flex flex-col gap-2">
+                                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight uppercase">Driving Innovation Through Technology.</h2>
+                                <p class="text-lg sm:text-xl md:text-2xl font-light">We integrate cutting-edge solutions to modernize your tech stack and empower future growth.</p>
+                                <a href="#" class="mt-8 px-6 py-3 w-44 h-14 bg-white text-[#262626] text-sm font-medium rounded-lg shadow-xl hover:bg-gray-200 transition-colors flex items-center justify-center">
+                                    Explore Solutions
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Video 4 (New URL: 3044654) -->
+                <div class="swiper-slide">
+                    <div class="item relative w-full h-full">
+                        <!-- Media Container -->
+                        <div class="video absolute inset-0">
+                            <!-- Video depicting teamwork/collaboration -->
+                            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+                                <source src="https://www.pexels.com/download/video/3044654/" type="video/mp4">
+                                Your browser does not support video playback.
+                            </video>
+                            <!-- Overlay -->
+                            <div class="absolute inset-0 bg-black/50 z-10 rounded-lg"></div>
+                        </div>
+
+                        <!-- Text Content -->
+                        <div class="parent-text absolute bottom-0 left-0 right-0 z-20 px-8 pt-8 pb-16 md:px-16 md:pt-16 md:pb-24">
+                            <div class="info-text flex flex-col gap-2">
+                                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight uppercase">Build a Resilient and Future-Proof Enterprise.</h2>
+                                <p class="text-lg sm:text-xl md:text-2xl font-light">Our tailored approach equips your teams with the knowledge to thrive in a rapidly changing global economy.</p>
+                                <a href="#" class="mt-8 px-6 py-3 w-44 h-14 bg-white text-[#262626] text-sm font-medium rounded-lg shadow-xl hover:bg-gray-200 transition-colors flex items-center justify-center">
+                                    Get Started Today
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Custom Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</div>
+</section>
+
+    <footer class="bg-white text-black">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1">
+                    <a href="#" class="flex items-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                            <path d="M12 2L10 6L14 6L12 2Z" fill="black"/>
+                            <path d="M12 8C10 8 9 10 9 12C9 14 10 16 12 16C14 16 15 14 15 12C15 10 14 8 12 8Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16V22" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-xl font-bold ml-2">social</span>
+                    </a>
+                    <p class="mt-4 text-gray-500 text-sm">
+                        Put people first. Fast, user-friendly and engaging.
+                    </p>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Product</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Features</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Pricing</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Book a demo</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Company</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="aboutus.html" class="text-base text-gray-600 hover:text-black">About us</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Blog</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Follow us</h3>
+                    <div class="flex space-x-6 mt-4">
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-7 6.477v2.04h-1.55v-2.04H8.023v5.58h2.433v-2.99c0-.78.54-1.33 1.25-1.33.71 0 1.25.55 1.25 1.33v2.99h2.433v-5.58H12zM6.5 8.25a1.75 1.75 0 11-3.5 0 1.75 1.75 0 013.5 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
+                <p class="text-base text-gray-400">&copy; 2025 social. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        class AccordionSlider {
+            constructor() {
+                this.slides = document.querySelectorAll(".slide");
+                this.prevBtn = document.querySelector(".nav-prev");
+                this.nextBtn = document.querySelector(".nav-next");
+                this.currentIndex = -1;
+
+                if (!this.slides.length) return;
+
+                this.init();
+            }
+
+            init() {
+                this.slides.forEach((slide, index) => {
+                    slide.addEventListener("click", () => this.setActiveSlide(index));
+                });
+
+                this.prevBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    this.previousSlide();
+                });
+                this.nextBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    this.nextSlide();
+                });
+
+                document.addEventListener("keydown", (e) => {
+                    if (e.key === "ArrowLeft") this.previousSlide();
+                    if (e.key === "ArrowRight") this.nextSlide();
+                });
+            }
+
+            setActiveSlide(index) {
+                if (this.currentIndex === index) {
+                    this.slides.forEach((slide) => slide.classList.remove("active"));
+                    this.currentIndex = -1;
+                } else {
+                    this.slides.forEach((slide) => slide.classList.remove("active"));
+                    this.slides[index].classList.add("active");
+                    this.currentIndex = index;
+                }
+            }
+
+            nextSlide() {
+                const nextIndex =
+                    this.currentIndex === -1 ? 0 : (this.currentIndex + 1) % this.slides.length;
+                this.setActiveSlide(nextIndex);
+            }
+
+            previousSlide() {
+                const prevIndex =
+                    this.currentIndex === -1
+                        ? this.slides.length - 1
+                        : (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+                this.setActiveSlide(prevIndex);
+            }
+        }
+
+        new AccordionSlider();
+    </script>
+<!-- Load Swiper JS -->
+<script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    // Slider Logic
+    const sliders = document.querySelectorAll('.main-slider');
+
+    // Define SVGs for play/pause icons (using simple paths for compatibility)
+    const playSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="svg-icon w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="white" d="M8 5v14l11-7z"/>
+                    </svg>`;
+
+    const pauseSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="svg-icon w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="white" d="M6 19h4V5H6zm8-14v14h4V5h-4z"/>
+                    </svg>`;
+
+    sliders.forEach((sliderEl, i) => {
+        const parent = sliderEl.closest('.wrapper-slider');
+        const paginationEl = parent.querySelector('.swiper-pagination');
+
+        let progress = 0;
+        // Autoplay duration (6 seconds)
+        const duration = 6000;
+        let isPlaying = true;
+        let startTime;
+        let rafId;
+        let swiper;
+
+        // Function to start the requestAnimationFrame loop
+        function startCustomAutoplay() {
+            startTime = performance.now();
+            loop();
+        }
+
+        // The animation loop for the loader
+        function loop(now) {
+            if (!isPlaying) {
+                rafId = requestAnimationFrame(loop); // Keep loop running even when paused for smooth resume
+                return;
+            }
+            if (!startTime) startTime = now;
+            const elapsed = now - startTime;
+            progress = Math.min((elapsed / duration) * 100, 100);
+
+            if (swiper) updateLoader(swiper.realIndex, Math.round(progress));
+
+            if (progress >= 100) {
+                // Manually advance slide and reset progress
+                swiper.slideNext();
+                progress = 0;
+                startTime = performance.now();
+                // slideChangeTransitionStart handler will call resetLoaders
+            }
+            rafId = requestAnimationFrame(loop);
+        }
+
+        // Functions to control autoplay state
+        function pauseAutoplay() {
+            isPlaying = false;
+        }
+
+        function resumeAutoplay() {
+            isPlaying = true;
+            // Adjust start time to account for elapsed progress
+            startTime = performance.now() - (progress / 100) * duration;
+        }
+
+        // Re-renders the pagination bullets
+        function resetLoaders() {
+            paginationEl.querySelectorAll('.swiper-pagination-bullet').forEach((bullet, index) => {
+                const isActive = bullet.classList.contains('swiper-pagination-bullet-active');
+
+                // Clear previous listeners to prevent duplicates
+                const oldBtn = bullet.querySelector('.playpause-btn');
+                if (oldBtn) oldBtn.removeEventListener('click', toggleAutoplay);
+
+                if (isActive) {
+                    // Active bullet gets the loader and play/pause button
+                    bullet.innerHTML = `
+                        <div class="bullet-content relative flex items-center justify-center">
+                            <button class="playpause-btn absolute z-10 w-8 h-8 rounded-full flex items-center justify-center p-1 cursor-pointer transition-colors hover:bg-white/20">
+                                ${isPlaying ? pauseSVG : playSVG}
+                            </button>
+                            <div class="percentage" style="--p: ${progress}%">
+                                <span class="number">${index + 1}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    // Add 'show' class after a brief delay for transition effect
+                    setTimeout(() => {
+                        const percentage = bullet.querySelector('.percentage');
+                        if (percentage) {
+                            percentage.classList.add('show');
+                        }
+                    }, 50);
+
+                    // Re-attach the event listener
+                    const btn = bullet.querySelector('.playpause-btn');
+                    if (btn) btn.addEventListener('click', toggleAutoplay);
+
+                } else {
+                    // Inactive bullets only show the number
+                    bullet.innerHTML = `<span class="number text-white/80 font-medium text-lg">${index + 1}</span>`;
+                }
+            });
+        }
+
+        // Handler for the play/pause button
+        function toggleAutoplay() {
+            if (isPlaying) {
+                pauseAutoplay();
+            } else {
+                resumeAutoplay();
+            }
+            // Update the button icon immediately
+            resetLoaders();
+        }
+
+
+        // Updates the conic gradient variable to show progress
+        function updateLoader(index, percent) {
+            const bullet = paginationEl.querySelectorAll('.swiper-pagination-bullet')[index];
+            if (bullet) {
+                const percentage = bullet.querySelector('.percentage');
+                if (percentage) {
+                    percentage.style.setProperty('--p', `${percent}%`);
+                }
+            }
+        }
+
+        // Initialize Swiper
+        swiper = new Swiper(sliderEl, {
+            effect: 'fade',
+            speed: 1000,
+            fadeEffect: {
+                crossFade: true,
+            },
+            loop: true,
+            pagination: {
+                el: paginationEl,
+                clickable: true,
+                // Custom render function to create the structure for the loader
+                renderBullet: function (index, className) {
+                    return `<span class="${className} cursor-pointer" data-index="${index}"></span>`;
+                }
+            },
+            on: {
+                init(swiperInstance) {
+                    swiper = swiperInstance; // Ensure we have the correct instance reference
+                    startCustomAutoplay();
+                    resetLoaders();
+                },
+                slideChangeTransitionStart() {
+                    // Reset progress/time at the start of a slide change
+                    progress = 0;
+                    startTime = performance.now();
+                    resetLoaders();
+                },
+                // Handle click on inactive bullets (default swiper functionality)
+                click(e) {
+                    if (e.target.closest('.swiper-pagination-bullet')) {
+                         // On click, pause then reset the loader loop
+                        pauseAutoplay();
+                        resetLoaders();
+                        // Resume after a short delay to acknowledge the user's manual slide change
+                        setTimeout(() => {
+                             resumeAutoplay();
+                             resetLoaders();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

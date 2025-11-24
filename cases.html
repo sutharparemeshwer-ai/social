@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>social - Case Studies</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load Iconify for vector icons -->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js for interactivity -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        .case-card-hover img {
+            transition: transform 0.3s ease-out;
+        }
+        .case-card-hover:hover img {
+            transform: scale(1.05);
+        }
+        .case-card-hover .case-card-content {
+            transition: border-color 0.3s ease-in-out;
+        }
+        .case-card-hover:hover .case-card-content {
+            border-color: #059669; /* primary-green */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-green': '#059669', // Emerald 600
+                        'dark-text': '#1f2937', // Gray 800
+                        'light-text': '#4b5563', // Gray 600
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen">
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto ">
+
+        <!-- 1. Navigation Bar -->
+        <header class="sticky top-0 z-50 bg-white flex items-center justify-between h-20 border-b border-gray-100">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center s">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                    <path d="M12 2L10 6L14 6L12 2Z" fill="#1a1a1a"/>
+                    <path d="M12 8C10 8 9 10 9 12C9 14 10 16 12 16C14 16 15 14 15 12C15 10 14 8 12 8Z" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 16V22" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-xl font-bold">social</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex space-x-8 items-center text-sm font-medium">
+                <a href="whyus.html" class="text-gray-700 hover:text-green-600 transition duration-150">Why us</a>
+                <a href="aboutus.html" class="text-gray-700 hover:text-green-600 transition duration-150">About us</a>
+                <a href="cases.html" class="text-green-600 hover:text-green-600 transition duration-150">Cases</a>
+                <a href="blog.html" class="text-gray-700 hover:text-green-600 transition duration-150">Blog</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hidden sm:inline-block border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition duration-150">
+                    Book a demo
+                </a>
+                <!-- Language Dropdown -->
+                <div class="relative">
+                    <button id="language-button" class="flex items-center space-x-1 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 transition duration-150">
+                        <span id="language-button-text">English</span>
+                        <svg id="language-arrow" class="w-4 h-4 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="language-menu" class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-1 hidden z-10">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Spanish</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">French</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">German</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Hindi</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+    </div>
+
+    <main class="py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Page Title -->
+            <div class="text-center mb-16">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
+                    Our Success Stories
+                </h1>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                    We partner with innovative companies to solve complex challenges and drive meaningful growth. Explore how we've helped our clients succeed.
+                </p>
+            </div>
+
+            <!-- Filterable Case Studies -->
+            <div x-data="{ filter: 'all' }">
+                <!-- Filter Buttons -->
+                <div class="flex justify-center flex-wrap gap-4 mb-12">
+                    <button @click="filter = 'all'" :class="{ 'bg-primary-green text-white': filter === 'all', 'bg-gray-100 text-gray-700': filter !== 'all' }" class="px-5 py-2 text-sm font-medium rounded-full hover:bg-primary-green hover:text-white transition-colors duration-200">
+                        All
+                    </button>
+                    <button @click="filter = 'marketing'" :class="{ 'bg-primary-green text-white': filter === 'marketing', 'bg-gray-100 text-gray-700': filter !== 'marketing' }" class="px-5 py-2 text-sm font-medium rounded-full hover:bg-primary-green hover:text-white transition-colors duration-200">
+                        Digital Marketing
+                    </button>
+                    <button @click="filter = 'design'" :class="{ 'bg-primary-green text-white': filter === 'design', 'bg-gray-100 text-gray-700': filter !== 'design' }" class="px-5 py-2 text-sm font-medium rounded-full hover:bg-primary-green hover:text-white transition-colors duration-200">
+                        Web Design
+                    </button>
+                    <button @click="filter = 'branding'" :class="{ 'bg-primary-green text-white': filter === 'branding', 'bg-gray-100 text-gray-700': filter !== 'branding' }" class="px-5 py-2 text-sm font-medium rounded-full hover:bg-primary-green hover:text-white transition-colors duration-200">
+                        Brand Identity
+                    </button>
+                </div>
+
+                <!-- Case Study Grid -->
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Case Study 1: Marketing -->
+                    <div x-show="filter === 'all' || filter === 'marketing'" class="case-card-hover">
+                        <a href="#" class="block">
+                            <div class="overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1557862921-37829c790f19?auto=format&fit=crop&w=800&q=80" alt="Project image for a marketing campaign" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="case-card-content mt-4 border-l-4 border-transparent pl-4">
+                                <p class="text-sm font-semibold text-primary-green uppercase">Digital Marketing</p>
+                                <h3 class="mt-1 text-xl font-bold text-dark-text">
+                                    250% Increase in Organic Traffic for FinTech Startup
+                                </h3>
+                                <p class="mt-2 text-base text-light-text">
+                                    A comprehensive SEO and content strategy that catapulted a new player to the top of search rankings.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Case Study 2: Design -->
+                    <div x-show="filter === 'all' || filter === 'design'" class="case-card-hover">
+                        <a href="#" class="block">
+                            <div class="overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=800&q=80" alt="Project image for a web design project" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="case-card-content mt-4 border-l-4 border-transparent pl-4">
+                                <p class="text-sm font-semibold text-primary-green uppercase">Web Design</p>
+                                <h3 class="mt-1 text-xl font-bold text-dark-text">
+                                    Redesigning an E-Commerce Experience for a Fashion Brand
+                                </h3>
+                                <p class="mt-2 text-base text-light-text">
+                                    A user-centric redesign that boosted conversion rates by 40% and improved user engagement.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Case Study 3: Branding -->
+                    <div x-show="filter === 'all' || filter === 'branding'" class="case-card-hover">
+                        <a href="#" class="block">
+                            <div class="overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1758581785537-f7dacb8b8a8e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YnJhbmRpbmclMjBwcm9qZWN0fGVufDB8fDB8fHww" alt="Project image for a branding project" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="case-card-content mt-4 border-l-4 border-transparent pl-4">
+                                <p class="text-sm font-semibold text-primary-green uppercase">Brand Identity</p>
+                                <h3 class="mt-1 text-xl font-bold text-dark-text">
+                                    Crafting a Bold New Identity for a Hospitality Group
+                                </h3>
+                                <p class="mt-2 text-base text-light-text">
+                                    From logo to brand voice, we built a cohesive identity that resonates with a modern audience.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Case Study 4: Design -->
+                    <div x-show="filter === 'all' || filter === 'design'" class="case-card-hover">
+                        <a href="#" class="block">
+                            <div class="overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80" alt="Project image for a SaaS platform design" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="case-card-content mt-4 border-l-4 border-transparent pl-4">
+                                <p class="text-sm font-semibold text-primary-green uppercase">Web Design</p>
+                                <h3 class="mt-1 text-xl font-bold text-dark-text">
+                                    Building a Scalable UI/UX for a SaaS Platform
+                                </h3>
+                                <p class="mt-2 text-base text-light-text">
+                                    We designed an intuitive and powerful interface for a complex data analytics tool.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Case Study 5: Marketing -->
+                    <div x-show="filter === 'all' || filter === 'marketing'" class="case-card-hover">
+                        <a href="#" class="block">
+                            <div class="overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Project image for a social media campaign" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="case-card-content mt-4 border-l-4 border-transparent pl-4">
+                                <p class="text-sm font-semibold text-primary-green uppercase">Digital Marketing</p>
+                                <h3 class="mt-1 text-xl font-bold text-dark-text">
+                                    Viral Social Media Campaign for a Consumer Brand
+                                </h3>
+                                <p class="mt-2 text-base text-light-text">
+                                    Achieved over 10 million impressions and a 500% ROI with a creative, data-driven campaign.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Case Study 6: Branding -->
+                    <div x-show="filter === 'all' || filter === 'branding'" class="case-card-hover">
+                        <a href="#" class="block">
+                            <div class="overflow-hidden rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1626320290598-03656e931a31?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGFja2FnaW5nJTIwZGVzaWdufGVufDB8fDB8fHww" alt="Project image for a packaging design" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="case-card-content mt-4 border-l-4 border-transparent pl-4">
+                                <p class="text-sm font-semibold text-primary-green uppercase">Brand Identity</p>
+                                <h3 class="mt-1 text-xl font-bold text-dark-text">
+                                    Sustainable Packaging Rebrand for an Eco-Friendly Product
+                                </h3>
+                                <p class="mt-2 text-base text-light-text">
+                                    A complete packaging overhaul that aligned the product's look with its eco-conscious mission.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white text-black">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1">
+                    <a href="#" class="flex items-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                            <path d="M12 2L10 6L14 6L12 2Z" fill="black"/>
+                            <path d="M12 8C10 8 9 10 9 12C9 14 10 16 12 16C14 16 15 14 15 12C15 10 14 8 12 8Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16V22" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-xl font-bold ml-2">social</span>
+                    </a>
+                    <p class="mt-4 text-gray-500 text-sm">
+                        Put people first. Fast, user-friendly and engaging.
+                    </p>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Product</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Features</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Pricing</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Book a demo</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Company</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="aboutus.html" class="text-base text-gray-600 hover:text-black">About us</a></li>
+                        <li><a href="blog.html" class="text-base text-gray-600 hover:text-black">Blog</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-black">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-1">
+                    <h3 class="text-sm font-semibold text-gray-500 tracking-wider uppercase">Follow us</h3>
+                    <div class="flex space-x-6 mt-4">
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-black">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-7 6.477v2.04h-1.55v-2.04H8.023v5.58h2.433v-2.99c0-.78.54-1.33 1.25-1.33.71 0 1.25.55 1.25 1.33v2.99h2.433v-5.58H12zM6.5 8.25a1.75 1.75 0 11-3.5 0 1.75 1.75 0 013.5 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
+                <p class="text-base text-gray-400">&copy; 2025 social. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
